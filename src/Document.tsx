@@ -104,7 +104,7 @@ export class Document extends React.Component<DocumentProps> {
     let language = fenceString && (bracketIndex === -1 ? fenceString : fenceString.slice(0, bracketIndex))
 
     let demoboardProps = extractInlineDemoboardProps(source, highlightedSource, this.props.demoboardHelpers)
-
+    
     return (
       demoboardProps
         ? <Demoboard {...demoboardProps} />
@@ -129,7 +129,6 @@ export class Document extends React.Component<DocumentProps> {
   }
 
   renderWrapper = (props) =>
-    console.log('rendering') ||
     React.createElement(this.context.components.wrapper, {
       ...props,
       className: this.props.className,

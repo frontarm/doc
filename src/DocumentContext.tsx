@@ -58,6 +58,7 @@ export function DocumentProvider(props: DocumentProviderProps) {
           ...context,
           components: {
             ...context.components,
+            ...props.components,
           }
         }}>
           {props.children}
@@ -148,13 +149,13 @@ Object.assign(defaultDocumentComponents, {
       {children}
     </section>
   ,
-  Demoboard: ({ className='', id, sources, style }) =>
+  Demoboard: ({ className='', id, editorFilename, sources, style }: DemoboardProps) =>
     <pre className={cx('document-Demoboard')+' '+className}>
       <code
         className={'document-Demoboard '+className}
         id={id}
         style={style}>
-        {sources[Object.keys(sources)[0]]}
+        {sources[editorFilename || Object.keys(sources)[0]]}
       </code>
     </pre>
   ,

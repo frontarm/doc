@@ -1,3 +1,7 @@
+export const demoboardHelpers = {
+  'App.js': require('!raw-loader!./document/App.js'),
+}
+
 The Minimal Example
 ===================
 
@@ -16,6 +20,8 @@ Step 1: Declare some pages
 To declare your pages, you'll use Navi's `createSwitch()` and `createPage()` functions. Switches are used to map URL paths to pages. Pages represent individual locations that you can navigate to.
 
 ```js
+//---
+  editorFilename: "pages/Reference.js"
 //--- pages.js
 import { createPage, createSwitch } from 'navi'
 import * as React from 'react'
@@ -35,10 +41,44 @@ export default createSwitch({
 
     '/reference': createPage({
       title: "API Reference",
-      getContent: () => import('./reference.js')
+      getContent: () => import('./Reference.js')
     }),
   }
 })
+//--- pages/Reference.js
+import * as React from 'react'
+import { NavLink } from 'react-navi'
+
+export default function Reference() {
+  return (
+    <div>
+      <h2>Reference</h2>
+      <p>Coming soon.</p>
+    </div>
+  )
+}
+//--- index.js
+import * as React from 'react'
+import * as ReactDOM from 'react-dom'
+import { createBrowserNavigation } from 'navi'
+import pages from './pages'
+import App from './App'
+
+async function main() {
+  let navigation = createBrowserNavigation({ pages })
+
+  // Wait until async content is ready (or has failed).
+  await navigation.steady()
+
+  ReactDOM.render(
+    <App navigation={navigation} />,
+    document.getElementById('root')
+  );
+}
+
+// Start the app
+main()
+//--- App.js <-- App.js
 ```
 
 As you'll see later, your content can be *anything*. You can return markdown, JSON, or even arbitrary functions! But `react-navi` has special support for React elements and components, so let's start by defining the content that way.

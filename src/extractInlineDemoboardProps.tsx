@@ -10,10 +10,20 @@ export function extractInlineDemoboardProps(source: string, highlightedSource: s
     return
   }
 
-  let files = source.split(/(^|\n)\/\/---\s+/).slice(1)
+  let helperKeys = Object.keys(helpers)
+  for (let i = 0; i < helperKeys.length; i++) {
+    let key = helperKeys[i]
+    if (key[0] !== '/') {
+      helpers['/'+key] = helpers[key]
+      delete helpers[key]
+    }
+  }
+
+  let files = source.split(/\/\/---/).slice(1)
   let sources: { [name: string]: string } = {}
   let demoboardProps: DemoboardProps = {
     sources,
+    highlightedSource,
   }
   for (let i = 0; i < files.length; i++) {
     let file = files[i]
@@ -25,7 +35,7 @@ export function extractInlineDemoboardProps(source: string, highlightedSource: s
       fileContents = ''
     }
     else {
-      fileConfig = file.slice(0, fileFirstNewline).split(/\s+/)
+      fileConfig = file.trim().slice(0, fileFirstNewline).split(/\s+/)
       fileContents = file.slice(fileFirstNewline+1)
     }
 
@@ -42,6 +52,8 @@ export function extractInlineDemoboardProps(source: string, highlightedSource: s
       console.warn(fileContents)
       continue
     }
+
+    fileName = fileName.trim()
 
     // Add a leading slash to the name component, while leaving alone any part
     // before the ':' (e.g. "solution:"")
