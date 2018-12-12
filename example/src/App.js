@@ -1,13 +1,16 @@
+/* eslint-disable import/no-webpack-loader-syntax */
 import React, { Component } from 'react'
-
-import ExampleComponent from '@frontarm/document'
+import { NavProvider } from 'react-navi'
+import { Document } from '@frontarm/document'
 
 export default class App extends Component {
-  render () {
+  render() {
     return (
-      <div>
-        <ExampleComponent text='Modern React component module' />
-      </div>
+      <NavProvider navigation={this.props.navigation}>
+        <Document
+          Component={require('!babel-loader!mdx-loader!./document.md').default}
+        />
+      </NavProvider>
     )
   }
 }

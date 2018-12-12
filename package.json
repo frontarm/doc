@@ -1,13 +1,13 @@
 {
   "name": "@frontarm/document",
   "version": "1.0.0",
-  "description": "A component for creating responsive documents with MDX",
-  "author": "jamesknelson",
+  "description": "A set of components for creating rich, responsive documents built around MDX.",
+  "author": "James K Nelson <james@frontarm.com>",
   "license": "MIT",
   "repository": "frontarm/document",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "jsnext:main": "dist/index.es.js",
+  "main": "dist/cjs/index.js",
+  "module": "dist/es/index.js",
+  "types": "dist/es/index.d.ts",
   "engines": {
     "node": ">=8",
     "npm": ">=5"
@@ -15,19 +15,22 @@
   "scripts": {
     "test": "cross-env CI=1 react-scripts-ts test --env=jsdom",
     "test:watch": "react-scripts-ts test --env=jsdom",
-    "build": "rollup -c",
+    "build": "rimraf dist/* && rollup -c",
     "start": "rollup -c -w",
     "prepare": "yarn run build",
-    "predeploy": "cd example && yarn install && yarn run build",
-    "deploy": "gh-pages -d example/build"
+    "predeploy": "cd example && yarn install && yarn run build"
   },
-  "dependencies": {},
+  "dependencies": {
+    "classnames": "^2.0.0"
+  },
   "peerDependencies": {
-    "prop-types": "^15.5.4",
-    "react": "^15.0.0 || ^16.0.0",
-    "react-dom": "^15.0.0 || ^16.0.0"
+    "@mdx-js/tag": "^0.16.6",
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-navi": "^0.8.1"
   },
   "devDependencies": {
+    "@mdx-js/tag": "^0.16.6",
     "@svgr/rollup": "^2.4.1",
     "@types/jest": "^23.1.5",
     "@types/react": "^16.3.13",
@@ -36,9 +39,14 @@
     "babel-runtime": "^6.26.0",
     "cross-env": "^5.1.4",
     "gh-pages": "^1.2.0",
-    "react": "^16.4.1",
-    "react-dom": "^16.4.1",
+    "mdx-loader": "^2.0.2",
+    "navi": "^0.8.0",
+    "node-sass": "^4.11.0",
+    "react": "^16.6.1",
+    "react-dom": "^16.6.1",
+    "react-navi": "^0.8.1",
     "react-scripts-ts": "^2.16.0",
+    "rimraf": "^2.6.2",
     "rollup": "^0.62.0",
     "rollup-plugin-babel": "^3.0.7",
     "rollup-plugin-commonjs": "^9.1.3",

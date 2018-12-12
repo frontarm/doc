@@ -1,7 +1,5 @@
 import typescript from 'rollup-plugin-typescript2'
 import commonjs from 'rollup-plugin-commonjs'
-import external from 'rollup-plugin-peer-deps-external'
-// import postcss from 'rollup-plugin-postcss-modules'
 import postcss from 'rollup-plugin-postcss'
 import resolve from 'rollup-plugin-node-resolve'
 import url from 'rollup-plugin-url'
@@ -25,10 +23,15 @@ export default {
       sourcemap: true
     }
   ],
+  external(id) {
+    if (id !== 'src/index.tsx' && (/^\w/.test(id) || id[0] === '@')) {
+      return true
+    }
+  },
   plugins: [
-    external(),
     postcss({
-      modules: true
+      modules: true,
+      extract: true
     }),
     url(),
     svgr(),
@@ -37,6 +40,13 @@ export default {
       rollupCommonJSResolveHack: true,
       clean: true
     }),
-    commonjs()
+    commonjs({
+      namedExports: {
+        // left-hand side can be an absolute path, a path
+        // relative to the current directory, or the name
+        // of a module in node_modules
+        'node_modules/@mdx-js/tag/dist/index.js': [ 'MDXTag', 'MDXProvider' ]
+      }
+    })
   ]
 }
