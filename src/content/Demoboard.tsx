@@ -19,6 +19,11 @@ export interface DemoboardProps {
   restricted?: boolean
 
   /**
+   * Whether the demoboard is being statically rendered.
+   */
+  isStatic?: boolean
+
+  /**
    * For inline demoboards, this contains highlighted source that may be
    * useful while the demoboard is loading.
    */
@@ -43,7 +48,7 @@ export interface DemoboardProps {
   lineCount?: number
   rightPanel?: 'console'
   tab?: 'editor' | 'viewer'
-  editorFilename?: string
+  editorPathname?: string
   viewerURL?: string
 
   className?: string
@@ -55,6 +60,11 @@ export class Demoboard extends React.Component<DemoboardProps> {
   static contextType = DocumentContext
 
   render() {
-    return <this.context.components.Demoboard {...this.props} />
+    return (
+      <this.context.components.Demoboard
+        {...this.props}
+        restricted={!this.context.canAccessRestrictedContent && this.props.restricted}
+      />
+    )
   }
 }

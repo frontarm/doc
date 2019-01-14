@@ -3790,6 +3790,11 @@ execa@^0.7.0:
     signal-exit "^3.0.0"
     strip-eof "^1.0.0"
 
+exenv@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/exenv/-/exenv-1.2.2.tgz#2ae78e85d9894158670b03d47bec1f03bd91bb9d"
+  integrity sha1-KueOhdmJQVhnCwPUe+wfA72Ru50=
+
 exit@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/exit/-/exit-0.1.2.tgz#0632638f8d877cc82107d30a0fff1a17cba1cd0c"
@@ -6841,12 +6846,11 @@ natural-compare@^1.4.0:
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
   integrity sha1-Sr6/7tdUHywnrPspvbvRXI1bpPc=
 
-navi@^0.8.0:
-  version "0.8.0"
-  resolved "https://registry.yarnpkg.com/navi/-/navi-0.8.0.tgz#09781b1c1450665861f3821bc26d4a2359e98a1c"
-  integrity sha512-zgjTo0nXUMQ4s3OUEB38KOotfAkkgCH+Hwe01kIqRwi6+Y3Qg2ZvPxQRCJJRaKCloM1rFvclUxzLwHeRiMy5jQ==
+navi@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/navi/-/navi-0.10.0.tgz#77a4e97c98c929c5cd346dfe4316ca9c33530054"
+  integrity sha512-JVUKQ6D6ZSOCigEbrBVy5ejXeo7gM64zmL8Yc9Jp5Wt5H5fxv/HZPjBW2TUshzo2UuzpUZi4DV1dZ/ZyEwUCWA==
   dependencies:
-    "@types/history" "^4.6.2"
     history "^4.7.2"
 
 needle@^2.2.1:
@@ -8223,14 +8227,15 @@ react-error-overlay@^4.0.1:
   resolved "https://registry.yarnpkg.com/react-error-overlay/-/react-error-overlay-4.0.1.tgz#417addb0814a90f3a7082eacba7cee588d00da89"
   integrity sha512-xXUbDAZkU08aAkjtUvldqbvI04ogv+a1XdHxvYuHPYKIVk/42BIOD0zSKTHAWV4+gDy3yGm283z2072rA2gdtw==
 
-react-navi@^0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/react-navi/-/react-navi-0.8.1.tgz#062f3750e3b743f66d777e879e11b6afe3930d2e"
-  integrity sha512-DlZqf9QJeb73Y4VJb7ZZATh7VfOQia0FicooI6V2Ic9h6rbxore9Ke3AAE++KnuQnc/dqjDxxvfQAD5HS/VzFA==
+react-navi@^0.10.0:
+  version "0.10.0"
+  resolved "https://registry.yarnpkg.com/react-navi/-/react-navi-0.10.0.tgz#c4268266deedba7b1af1dac7617c1cebad08d8e6"
+  integrity sha512-bePoi2SeLW8gto6Zh3Z5p5cSb3aJ6DDdooCKyXNMV/AtDbYBDtFrYT7IA+EV9WzwIGIy5m9mo/lY3jbB8ZtH5Q==
   dependencies:
     "@types/history" "^4.6.2"
     "@types/react" "^16.4.6"
     "@types/react-dom" "^16.0.6"
+    exenv "^1.2.2"
 
 react-scripts-ts@^2.16.0:
   version "2.17.0"

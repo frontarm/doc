@@ -1,6 +1,6 @@
 {
   "name": "@frontarm/document",
-  "version": "0.1.4",
+  "version": "0.2.1",
   "description": "A set of components for creating rich, responsive documents built around MDX.",
   "author": "James K Nelson <james@frontarm.com>",
   "license": "MIT",
@@ -27,7 +27,7 @@
     "@mdx-js/tag": "^0.16.6",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "react-navi": "^0.8.1"
+    "react-navi": "^0.10.0"
   },
   "devDependencies": {
     "@mdx-js/tag": "^0.16.6",
@@ -40,11 +40,11 @@
     "cross-env": "^5.1.4",
     "gh-pages": "^1.2.0",
     "mdx-loader": "^2.0.2",
-    "navi": "^0.8.0",
+    "navi": "^0.10.0",
     "node-sass": "^4.11.0",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
-    "react-navi": "^0.8.1",
+    "react-navi": "^0.10.0",
     "react-scripts-ts": "^2.16.0",
     "rimraf": "^2.6.2",
     "rollup": "^0.62.0",

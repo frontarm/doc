@@ -47,7 +47,7 @@ export const DocumentContext = React.createContext<DocumentContext>({
 
 export interface DocumentProviderProps {
   children: React.ReactNode
-  components: DocumentComponents
+  components: Partial<DocumentComponents>
 }
 
 export function DocumentProvider(props: DocumentProviderProps) {
@@ -59,7 +59,7 @@ export function DocumentProvider(props: DocumentProviderProps) {
           components: {
             ...context.components,
             ...props.components,
-          }
+          } as DocumentComponents
         }}>
           {props.children}
         </DocumentContext.Provider>
@@ -149,13 +149,13 @@ Object.assign(defaultDocumentComponents, {
       {children}
     </section>
   ,
-  Demoboard: ({ className='', id, editorFilename, sources, style }: DemoboardProps) =>
+  Demoboard: ({ className='', id, editorPathname, sources, style }: DemoboardProps) =>
     <pre className={cx('document-Demoboard')+' '+className}>
       <code
         className={'document-Demoboard '+className}
         id={id}
         style={style}>
-        {sources[editorFilename || Object.keys(sources)[0]]}
+        {sources[editorPathname || Object.keys(sources)[0]]}
       </code>
     </pre>
   ,

@@ -25,13 +25,14 @@ export interface DocumentProps<DocumentComponentProps = any> {
   /**
    * The MDX Document component to render.
    */
-  Component: React.ComponentType
+  MDXComponent?: React.ComponentType
+  children?: React.ReactNode
 
   /**
    * Allows configuration of the components used to render different parts of
    * the document.
    */
-  components?: DocumentComponents
+  components?: Partial<DocumentComponents>
 
   /**
    * Props that will be passed through to the rendered Document Component
@@ -142,7 +143,7 @@ export class Document extends React.Component<DocumentProps> {
     let lastProps = this.props
 
     return (
-      lastProps.Component !== nextProps.Component ||
+      lastProps.MDXComponent !== nextProps.MDXComponent ||
       lastProps.canAccessRestrictedContent !== nextProps.canAccessRestrictedContent ||
       lastProps.className !== nextProps.className ||
       !shallowCompare(lastProps.documentProps, nextProps.documentProps) ||
@@ -158,7 +159,7 @@ export class Document extends React.Component<DocumentProps> {
     let components = {
       ...(this.context as DocumentContext).components,
       ...this.props.components!,
-    }
+    } as DocumentComponents
     
     let {
       wrapper,
@@ -181,15 +182,23 @@ export class Document extends React.Component<DocumentProps> {
     mdxComponents.pre = this.renderPre
     mdxComponents.wrapper = this.renderWrapper
 
+    let content = this.props.MDXComponent ? (
+      <MDXProvider components={mdxComponents}>
+        <this.props.MDXComponent {...this.props.documentProps} />
+      </MDXProvider>
+    ) : (
+      this.renderWrapper({
+        children: this.props.children || null,
+      })
+    )
+
     return (
       <DocumentContext.Provider value={{
         canAccessRestrictedContent: !!this.props.canAccessRestrictedContent,
         components,
         isStatic: !!this.props.isStatic,
       }}>
-        <MDXProvider components={mdxComponents}>
-          <this.props.Component {...this.props.documentProps} />
-        </MDXProvider>
+        {content}
       </DocumentContext.Provider>
     )
   }
