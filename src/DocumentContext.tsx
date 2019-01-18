@@ -132,7 +132,7 @@ Object.assign(defaultDocumentComponents, {
 
   // Add a class to the wrapper to add layout-related styles to it
   wrapper: ({ className='', ...props }) =>
-    <div {...props} className={cx('Document', 'wrapper')+' document-wrapper '+className} />
+    <div {...props} className={'document-wrapper '+className} />
   ,
 
   headingLink: ({ className='', ...props }) =>

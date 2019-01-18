@@ -20,6 +20,8 @@ import { Block } from './layout/Block'
 import { FullBlock } from './layout/FullBlock'
 import { WideBlock } from './layout/WideBlock'
 
+import styles from './DocumentLayout.module.scss'
+
 
 export interface DocumentProps<DocumentComponentProps = any> {
   /**
@@ -132,7 +134,7 @@ export class Document extends React.Component<DocumentProps> {
   renderWrapper = (props) =>
     React.createElement(this.context.components.wrapper, {
       ...props,
-      className: this.props.className,
+      className: styles.Document+' '+(this.props.className || ''),
       id: this.props.id,
       style: this.props.style,
     })

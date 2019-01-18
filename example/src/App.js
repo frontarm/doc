@@ -10,11 +10,10 @@ export default class App extends React.Component {
     return (
       <NavProvider navigation={this.props.navigation}>
         <Document
-          Component={Component}
+          MDXComponent={Component}
           demoboardHelpers={demoboardHelpers}
           components={{
             Demoboard: (props) =>
-              console.log('demoboard props', props) ||
               <pre>
                 <code>
                   {props.sources[props.editorFilename || Object.keys(props.sources)[0]]}
