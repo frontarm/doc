@@ -87,7 +87,7 @@ const ConfigOptionNames = [
   
   'theme',
 
-  'editorFilename',
+  'editorPathname',
   'viewerURL',
 
   'maximizeLeftPanel',

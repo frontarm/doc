@@ -12,15 +12,6 @@ export default class App extends React.Component {
         <Document
           MDXComponent={Component}
           demoboardHelpers={demoboardHelpers}
-          components={{
-            Demoboard: (props) =>
-              <pre>
-                <code>
-                  {props.sources[props.editorFilename || Object.keys(props.sources)[0]]}
-                </code>
-              </pre>
-            ,
-          }}
         />
       </NavProvider>
     )

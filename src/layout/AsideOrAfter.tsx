@@ -1,8 +1,6 @@
 import * as React from 'react'
 import styles from '../DocumentLayout.module.scss'
-import classNames from 'classnames/bind'
-
-const cx = classNames.bind(styles)
+import { Aside } from './Aside';
 
 export interface AsideOrAfterProps {
   aside: React.ReactNode
@@ -21,17 +19,11 @@ export function AsideOrAfter({
   style,
 }: AsideOrAfterProps) {
   return (
-    <div
-      className={cx('AsideOrAfter')+' '+className}
-      id={id}
-      style={style}
-    >
-      <div className={cx('content')}>
-        {children}
-      </div>
-      <aside className={cx('aside')}>
+    <div className={styles.AsideOrAfter}>
+      <Aside className={className} id={id} style={style}>
         {aside}
-      </aside>
+      </Aside>
+      {children}
     </div>
   )
 }

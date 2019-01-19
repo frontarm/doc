@@ -3,7 +3,7 @@ import { DocumentContext } from '../DocumentContext'
 
 export interface BewareProps extends React.HTMLAttributes<any> {
   children: React.ReactNode
-  title?: string
+  title?: any
 }
 
 export class Beware extends React.Component<BewareProps> {

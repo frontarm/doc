@@ -30,7 +30,7 @@ export interface DemoboardProps {
   highlightedSource?: string
 
   /**
-   * Accepts a list of sources, with magic sources prefixed by `magic:`, and
+   * Accepts a list of sources, with hidden sources prefixed by `hidden:`, and
    * solution sources prefixed by `solution:`.
    *
    * Future plan: create a loader that allows an entire directory to be smashed

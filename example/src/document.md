@@ -1,27 +1,79 @@
+import { Document } from '@frontarm/document'
 export const demoboardHelpers = {
   'App.js': require('!raw-loader!./document/App.js'),
 }
 
+<div style={{ backgroundColor: 'red', padding: '1px 0' }}>
+
 The Minimal Example
 ===================
 
+</div>
+
 After spinning up a fresh app with [create-react-app](https://github.com/facebook/create-react-app), start by installing the `navi` and `react-navi` packages:
+
+<Document.Image
+  alt="Seven Stripes Logo"
+  src={require('./logo.png')}
+  width={200}
+/>
+
+- test
+
+- test
+
+<Document.Tweet
+  tweetId='1085816055841251328'
+/>
+
 
 ```bash
 npm install --save navi react-navi
 ```
 
+<Document.AsideOrAfter aside={
+  <React.Fragment>
+    <Document.Details title="Details">
+      <p>This is extra info that you might find handy.</p>
+    </Document.Details>
+    <div style={{backgroundColor: 'lightblue'}}>
+      <Document.Gutter>
+        <p>Test</p>
+      </Document.Gutter>
+    </div>
+  </React.Fragment>
+}>
+
 This leaves you with just three short steps to creating an app with asynchronous content and smooth transitions between pages.
 
+Test Test
+
+</Document.AsideOrAfter>
 
 Step 1: Declare some pages
 --------------------------
 
+<Document.Aside>
+  <Document.YouTube videoId='PkIS_Xgf1zc' />
+</Document.Aside>
+
+<Document.Gutter>
+
 To declare your pages, you'll use Navi's `createSwitch()` and `createPage()` functions. Switches are used to map URL paths to pages. Pages represent individual locations that you can navigate to.
+
+Test Test Test
+
+</Document.Gutter>
+
+```
+hello
+```
+
+<Document.Gutter half>
 
 ```js
 //---
-  editorFilename: "pages/Reference.js"
+editorPathname: "/pages.js"
 //--- pages.js
 import { createPage, createSwitch } from 'navi'
 import * as React from 'react'
@@ -81,9 +133,19 @@ main()
 //--- App.js <-- App.js
 ```
 
+</Document.Gutter>
+
+<Document.AsideOrAfter aside={
+  <Document.Details>
+  <p>This is a test aside with some details that should push the content on the left in a little.</p>
+  </Document.Details>
+} >
+
 As you'll see later, your content can be *anything*. You can return markdown, JSON, or even arbitrary functions! But `react-navi` has special support for React elements and components, so let's start by defining the content that way.
 
 But what about the `/reference` page? It's not returning an element or component. It's returning a *Promise* to a component -- and this is where Navi shines. When the user clicks the "API reference" link, instead of immediately rendering a blank page, Navi will wait until `reference.js` has loaded --  and *then* it'll render the page.
+
+</Document.AsideOrAfter>
 
 ```js
 // pages/reference.js

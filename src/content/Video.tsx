@@ -2,9 +2,12 @@ import * as React from 'react'
 import { DocumentContext } from '../DocumentContext'
 
 export interface VideoProps {
-  children: React.ReactNode
-  
+  children?: React.ReactNode
+  icon?: any
   restricted?: boolean
+  title?: any
+  titleTagName?: string
+  videoId: string
 
   className?: string
   id?: string

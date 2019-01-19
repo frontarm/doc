@@ -11,6 +11,8 @@
 npm install --save @frontarm/document
 ```
 
+Designed wit the assumption that there'll be 250px of sidebar or extra margin from windows with width of 1101px or up.
+
 
 Main Components
 ---------------
@@ -121,11 +123,11 @@ Layout components are not configurable
 
 Renders the `aside` element on the right of `children` if there's space, but when collpasing to a single column, renders the `aside` element underneath `children`.
 
-### `<Document.LeftBlock children>`
+### `<Document.Block children>`
 
 Renders a block of content in the left column.
 
-### `<Document.FloatRight children>`
+### `<Document.Aside children>`
 
 Floats a block of content right of the following columns, similar to how floats in CSS work.
 

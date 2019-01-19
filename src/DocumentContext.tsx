@@ -1,15 +1,16 @@
 import * as React from 'react'
 import { NavLink } from 'react-navi'
-import classNames from 'classnames/bind'
 import { BewareProps } from './content/Beware'
 import { DemoboardProps } from './content/Demoboard'
 import { DetailsProps } from './content/Details'
+import { ImageProps } from './content/Image'
 import { SpoilerProps } from './content/Spoiler'
 import { TangentProps } from './content/Tangent'
+import { TweetProps } from './content/Tweet'
 import { VideoProps } from './content/Video'
-import styles from './DocumentLayout.module.scss'
-
-const cx = classNames.bind(styles)
+import { YouTubeProps } from './content/YouTube'
+import { Block } from './layout/Block'
+import { Aside } from './layout/Aside'
 
 export interface MDXComponents {
   [name: string]: React.ComponentType<any>
@@ -23,9 +24,12 @@ export interface DocumentComponents extends MDXComponents {
   Beware: React.ComponentType<BewareProps>
   Demoboard: React.ComponentType<DemoboardProps>
   Details: React.ComponentType<DetailsProps>
+  Image: React.ComponentType<ImageProps>
   Spoiler: React.ComponentType<SpoilerProps>
   Tangent: React.ComponentType<TangentProps>
+  Tweet: React.ComponentType<TweetProps>
   Video: React.ComponentType<VideoProps>
+  YouTube: React.ComponentType<YouTubeProps>
 }
 
 export interface DocumentContext {
@@ -112,9 +116,9 @@ Object.assign(defaultDocumentComponents, {
   },
 
   // Render the `<pre>` tags within code blocks instead of separately, so that
-  // Demoboards don't need to be wrapper by `<pre>` tags.
-  code: ({ children, className='', language, highlightedSource, ...props }) =>
-    <pre {...props} className={cx('code')+' '+className}>
+  // Demoboards don't need to be wrapped by `<pre>` tags.
+  code: ({ children, className='', language='text', highlightedSource, ...props }) =>
+    <pre className={`document-code `+className} {...props}>
       {
         highlightedSource
           ? <code dangerouslySetInnerHTML={{ __html: highlightedSource }} />
@@ -142,46 +146,58 @@ Object.assign(defaultDocumentComponents, {
   ,
   
   Beware: ({ children, className='', title, ...props }) =>
-    <section {...props} className={'document-Beware '+className}>
+    <Block Component='section' {...props} className={'document-Beware '+className}>
       <header>
         {title}
       </header>
       {children}
-    </section>
+    </Block>
   ,
   Demoboard: ({ className='', id, editorPathname, sources, style }: DemoboardProps) =>
-    <pre className={cx('document-Demoboard')+' '+className}>
+    <Block Component='pre' className={'document-Demoboard'+' '+className}>
       <code
-        className={'document-Demoboard '+className}
         id={id}
         style={style}>
         {sources[editorPathname || Object.keys(sources)[0]]}
       </code>
-    </pre>
+    </Block>
   ,
-  Details: ({ children, className='', title, TitleComponent, ...props }) =>
-    <section {...props} className={'document-Details '+className}>
-      <header>
-        <TitleComponent>{title}</TitleComponent>
-      </header>
-      {children}
-    </section>
-  ,
-  Spoiler: ({ children, className='', title, ...props }) =>
-    <section {...props} className={'document-Spoiler '+className}>
+  Details: ({ children, className='', icon, title, ...props }) =>
+    <Block Component='section' {...props} className={'document-Details '+className}>
       <header>
         {title}
       </header>
       {children}
-    </section>
+    </Block>
+  ,
+  Image: ({ children, className='', title, ...props }) =>
+    <Block>
+      <img {...props} className={'document-Image' +className} />
+    </Block>
+  ,
+  Spoiler: ({ children, className='', title, ...props }) =>
+    <Block Component='section' {...props} className={'document-Spoiler '+className}>
+      <header>
+        {title}
+      </header>
+      {children}
+    </Block>
   ,
   Tangent: ({ children, className='', ...props }) =>
-    <section {...props} className={'document-Tangent '+className}>
+    <Aside {...props} className={'document-Tangent '+className}>
       {children}
-    </section>
+    </Aside>
   ,
-  Video: (props) =>
-    <div>
-      Video - todo.
-    </div>
+  Tweet: (props) => <div>Unimplemented.</div>,
+  Video: (props) => <div>Unimplemented.</div>,
+  YouTube: ({ children, icon, title, videoId, className='', ...props }: YouTubeProps) => 
+    <Block className={'document-YouTube '+className}>
+      <iframe
+        src={`https://www.youtube.com/embed/${videoId}`}
+        frameBorder="0"
+        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        {...props}
+      />
+    </Block>
 })

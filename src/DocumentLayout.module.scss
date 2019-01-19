@@ -1,116 +1,130 @@
+$single-column-gutter: 20px;
+$twin-column-gutter: 32px;
+
+$max-single-body-width: 700px;
+$max-twin-body-width: 602px;
+
+$min-aside-width: 250px;
+
+$max-single-width: 1100px;
+
+@mixin when-single-column {
+  @media (max-width: #{$max-single-width}) {
+    @content;
+  }
+}
+@mixin when-twin-column {
+  @media (min-width: #{$max-single-width + 1px}) {
+    @content;
+  }
+}
+
 :local {
-  $body-width: 650px;
-  $column: 69px;
-  $gutter: 32px;
-  $small-gutter: 20px;
-
-  $body-width: $column*6 + $gutter*6;
-
-  $max-responsive-width: 1240px;
-  $max-single-column-width: 1100px;
-  $max-mobile-width: 550px;
-
-  @mixin full-width {
-    @media (min-width: #{$max-responsive-width + 1px}) {
-      @content;
-    }
-  }
-  @mixin responsive-width {
-    @media (min-width: #{$max-single-column-width + 1px}) and (max-width: #{$max-responsive-width}) {
-      @content;
-    }
-  }
-  @mixin single-column-width {
-    @media (min-width: #{$max-mobile-width + 1px}) and (max-width: #{$max-single-column-width}) {
-      @content;
-    }
-  }
-  @mixin mobile-width {
-    @media (max-width: #{$max-mobile-width}) {
-      @content;
-    }
-  }
-
-  @mixin left-column {
-    @include full-width {
-      width: 100%;
-      max-width: $body-width;
-    }
-    @include responsive-width {
-      width: calc( (100vw - 120px - #{$small-gutter}*11)/12 * 6 + #{$small-gutter} * 5);
-      max-width: $body-width;
-    }
-    @include single-column-width {
-      width: $body-width;
-      max-width: 100%;
-    }
-    @include mobile-width {
-      width: 100%;
-      max-width: calc(100vw - 40px); 
-    }
-  }
-
-  .Document {
-    position: relative; 
-  
-    p, h1,h2,h3,h4,h5,h6, ul, ol, img, pre, hr, blockquote, .Block {
-      @include left-column;
-    }
-  }
-
   .Aside {
-    max-width: $gutter*3 + $column*4;
-
-    @include full-width {
-      position: absolute;
-      left: $body-width + $gutter;
-      width: calc(100% - #{$body-width} - #{$gutter});
-    }
-    @include responsive-width {
-      position: absolute;
-      left: calc( (100vw - 120px - 20px*11)/12 * 6 + 20px * 6);
-      width: calc( 100% - ( (100vw - 120px - #{$small-gutter}*11)/12 * 6 + #{$small-gutter} * 4));
-    }
-    @include single-column-width {
-      width: $body-width;
-      max-width: 100%;
-    }
-    @include mobile-width {
+    @include when-single-column {
+      max-width: $max-single-body-width + $single-column-gutter*2;
+      margin-left: auto;
+      margin-right: auto;
       width: 100%;
-      margin: 2rem 0;
     }
+    @include when-twin-column {
+      min-width: $min-aside-width;
+      float: right;
+      width: calc(100% - #{$max-twin-body-width + $twin-column-gutter});
+    }
+  }
+
+  .Block {
+    @include when-single-column {
+      max-width: $max-single-body-width;
+      margin-left: auto;
+      margin-right: auto;
+      width: calc(100% - #{$single-column-gutter*2});
+    }
+    @include when-twin-column {
+      max-width: $max-twin-body-width;
+      margin-left: $twin-column-gutter;
+      margin-right: $twin-column-gutter;
+      width: calc(100% - #{$min-aside-width + $twin-column-gutter*3});
+    }
+
+    // Blocks within Asides should add a gutter, but should leave deciding
+    // the width to the Aside.
+    .Aside & {
+      @include when-single-column {
+        margin-left: $single-column-gutter;
+        margin-right: $single-column-gutter;
+        width: calc(100% - #{$single-column-gutter * 2});
+      }
+      @include when-twin-column {
+        margin-left: $twin-column-gutter;
+        margin-right: $twin-column-gutter;
+        width: calc(100% - #{$twin-column-gutter * 2});
+      }
+      max-width: none;
+    }
+
+    // When a gutter is manually specified around a block, use that instead
+    // of applying gutter styles -- but still use the specified max width
+    // -- even if inside an Aside.
+    .Gutter & {
+      @include when-twin-column {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+  }
+
+  .Gutter {
+    @include when-single-column {
+      &.half {
+        padding-left: $single-column-gutter/2;
+        padding-right: $single-column-gutter/2;
+
+        .Block {
+          max-width: $max-single-body-width + $single-column-gutter;
+        }
+      }
+      &.full {
+        padding-left: $single-column-gutter;
+        padding-right: $single-column-gutter;
+      }
+
+      .Block {
+        width: 100%;
+      }
+    }
+    @include when-twin-column {
+      &.half {
+        padding-left: $twin-column-gutter/2;
+        padding-right: $twin-column-gutter/2;
+
+        .Block {
+          max-width: $max-twin-body-width + $twin-column-gutter;
+        }
+      }
+      &.full {
+        padding-left: $twin-column-gutter;
+        padding-right: $twin-column-gutter;
+      }
+    }
+  }
+
+  // Nested blocks effectively don't do anything.
+  .Block .Block,
+  .Block .Gutter .Block {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: none;
+    width: 100%;
   }
 
   .AsideOrAfter {
     position: relative;
 
-    > .aside {
-      max-width: $gutter*3 + $column*4;
-
-      @include full-width {
-        position: absolute;
-        top: 0;
-        left: $body-width + $gutter;
-        width: calc(100% - #{$body-width} - #{$gutter});
-      }
-      @include responsive-width {
-        position: absolute;
-        top: 0;
-        left: calc( (100vw - 120px - 20px*11)/12 * 6 + 20px * 6);
-        width: calc( 100% - ( (100vw - 120px - #{$small-gutter}*11)/12 * 6 + #{$small-gutter} * 4));
-      }
-      @include single-column-width {
-        width: $body-width;
-        max-width: 100%;
-      }
-      @include mobile-width {
-        width: 100%;
-        margin: 2rem 0;
-      }
+    @include when-single-column {
+      display: flex;
+      flex-direction: column-reverse;
     }
-  }
-
-  .FullWidth{
-    width: 100%;
   }
 }
