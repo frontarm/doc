@@ -1,12 +1,12 @@
 import * as React from 'react'
-import { DocumentContext } from '../DocumentContext'
+import { DocContext } from '../DocContext'
 
 export interface HideWhenStaticProps {
   children: React.ReactNode
 }
 
 export class HideWhenStatic extends React.Component<HideWhenStaticProps> {
-  static contextType = DocumentContext
+  static contextType = DocContext
 
   render() {
     return this.context.isStatic ? null : this.props.children

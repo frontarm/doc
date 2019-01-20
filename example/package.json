@@ -1,11 +1,11 @@
 {
-  "name": "@frontarm/document-example",
-  "homepage": "https://jamesknelson.github.io/@frontarm/document",
+  "name": "@frontarm/doc-example",
+  "homepage": "https://jamesknelson.github.io/@frontarm/doc",
   "version": "0.0.0",
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "@frontarm/document": "link:..",
+    "@frontarm/doc": "link:..",
     "scriptjs": "^2.5.8",
     "raw-loader": "^1.0.0",
     "react-scripts": "^1.1.4"

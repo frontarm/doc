@@ -1,10 +1,10 @@
 {
-  "name": "@frontarm/document",
+  "name": "@frontarm/doc",
   "version": "0.3.3",
   "description": "A set of components for creating rich, responsive documents built around MDX.",
   "author": "James K Nelson <james@frontarm.com>",
   "license": "MIT",
-  "repository": "frontarm/document",
+  "repository": "frontarm/doc",
   "main": "dist/cjs/index.js",
   "module": "dist/es/index.js",
   "types": "dist/es/index.d.ts",
@@ -52,9 +52,10 @@
     "rollup-plugin-postcss": "^1.6.2",
     "rollup-plugin-typescript2": "^0.17.0",
     "rollup-plugin-url": "^1.4.0",
-    "typescript": "^2.8.3"
+    "typescript": "^3.2.2"
   },
   "files": [
-    "dist"
+    "dist",
+    "sizes.module.css"
   ]
 }

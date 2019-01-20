@@ -16,7 +16,7 @@ export interface MDXComponents {
   [name: string]: React.ComponentType<any>
 }
 
-export interface DocumentComponents extends MDXComponents {
+export interface DocComponents extends MDXComponents {
   wrapper: React.ComponentType<React.HTMLAttributes<any>>
   code: React.ComponentType<{ highlightedSource?: string, language?: string } & React.HTMLAttributes<any>>
   headingLink: React.ComponentType<{ href: string } & React.HTMLAttributes<any>>
@@ -32,8 +32,8 @@ export interface DocumentComponents extends MDXComponents {
   YouTube: React.ComponentType<YouTubeProps>
 }
 
-export interface DocumentContext {
-  components: DocumentComponents
+export interface DocContext {
+  components: DocComponents
 
   canAccessRestrictedContent: boolean
   isStatic: boolean
@@ -41,40 +41,40 @@ export interface DocumentContext {
 
 // Get around a circular dependency, where the heading components need to know
 // the context, but the context needs this at creation time.
-export const defaultDocumentComponents: DocumentComponents = {} as any
+export const defaultDocComponents: DocComponents = {} as any
 
-export const DocumentContext = React.createContext<DocumentContext>({
-  components: defaultDocumentComponents,
+export const DocContext = React.createContext<DocContext>({
+  components: defaultDocComponents,
   canAccessRestrictedContent: false,
   isStatic: true,
 })
 
-export interface DocumentProviderProps {
+export interface DocProviderProps {
   children: React.ReactNode
-  components: Partial<DocumentComponents>
+  components: Partial<DocComponents>
 }
 
-export function DocumentProvider(props: DocumentProviderProps) {
+export function DocProvider(props: DocProviderProps) {
   return (
-    <DocumentContext.Consumer>
+    <DocContext.Consumer>
       {context => 
-        <DocumentContext.Provider value={{
+        <DocContext.Provider value={{
           ...context,
           components: {
             ...context.components,
             ...props.components,
-          } as DocumentComponents
+          } as DocComponents
         }}>
           {props.children}
-        </DocumentContext.Provider>
+        </DocContext.Provider>
       }
-    </DocumentContext.Consumer>
+    </DocContext.Consumer>
   )
 }
 
 function createHeadingComponent(level) {
   return class Heading extends React.Component<React.HTMLAttributes<any>> {
-    static contextType = DocumentContext
+    static contextType = DocContext
 
     render() {
       let props = this.props
@@ -84,7 +84,7 @@ function createHeadingComponent(level) {
       let simpleId = props.id && props.id.replace(/\(.*/, '').replace(/[<>]/g, '')
 
       // The component that will be used to render the heading's hash link.
-      let HeadingLink = (this.context as DocumentContext).components.headingLink
+      let HeadingLink = (this.context as DocContext).components.headingLink
 
       return React.createElement(
         'h' + level,
@@ -96,7 +96,7 @@ function createHeadingComponent(level) {
   }
 }
 
-Object.assign(defaultDocumentComponents, {
+Object.assign(defaultDocComponents, {
   a: (props) => {
     // For internal links, remove any `https` and hostname, as it triggers
     // opening in a new window.
@@ -118,7 +118,7 @@ Object.assign(defaultDocumentComponents, {
   // Render the `<pre>` tags within code blocks instead of separately, so that
   // Demoboards don't need to be wrapped by `<pre>` tags.
   code: ({ children, className='', language='text', highlightedSource, ...props }) =>
-    <pre className={`document-code `+className} {...props}>
+    <pre className={`Doc-code `+className} {...props}>
       {
         highlightedSource
           ? <code dangerouslySetInnerHTML={{ __html: highlightedSource }} />
@@ -136,17 +136,17 @@ Object.assign(defaultDocumentComponents, {
 
   // Add a class to the wrapper to add layout-related styles to it
   wrapper: ({ className='', ...props }) =>
-    <div {...props} className={'document-wrapper '+className} />
+    <div {...props} className={'Doc-wrapper '+className} />
   ,
 
   headingLink: ({ className='', ...props }) =>
-    <NavLink href={props.href} className={'document-headingLink '+className}>
+    <NavLink href={props.href} className={'Doc-headingLink '+className}>
       #
     </NavLink>
   ,
   
   Beware: ({ children, className='', title, ...props }) =>
-    <Block Component='section' {...props} className={'document-Beware '+className}>
+    <Block Component='section' {...props} className={'Doc-Beware '+className}>
       <header>
         {title}
       </header>
@@ -154,7 +154,7 @@ Object.assign(defaultDocumentComponents, {
     </Block>
   ,
   Demoboard: ({ className='', id, editorPathname, sources, style }: DemoboardProps) =>
-    <Block Component='pre' className={'document-Demoboard'+' '+className}>
+    <Block Component='pre' className={'Doc-Demoboard'+' '+className}>
       <code
         id={id}
         style={style}>
@@ -163,7 +163,7 @@ Object.assign(defaultDocumentComponents, {
     </Block>
   ,
   Details: ({ children, className='', icon, title, ...props }) =>
-    <Block Component='section' {...props} className={'document-Details '+className}>
+    <Block Component='section' {...props} className={'Doc-Details '+className}>
       <header>
         {title}
       </header>
@@ -172,11 +172,11 @@ Object.assign(defaultDocumentComponents, {
   ,
   Image: ({ children, className='', title, ...props }) =>
     <Block>
-      <img {...props} className={'document-Image' +className} />
+      <img {...props} className={'Doc-Image' +className} />
     </Block>
   ,
   Spoiler: ({ children, className='', title, ...props }) =>
-    <Block Component='section' {...props} className={'document-Spoiler '+className}>
+    <Block Component='section' {...props} className={'Doc-Spoiler '+className}>
       <header>
         {title}
       </header>
@@ -184,14 +184,14 @@ Object.assign(defaultDocumentComponents, {
     </Block>
   ,
   Tangent: ({ children, className='', ...props }) =>
-    <Aside {...props} className={'document-Tangent '+className}>
+    <Aside {...props} className={'Doc-Tangent '+className}>
       {children}
     </Aside>
   ,
   Tweet: (props) => <div>Unimplemented.</div>,
   Video: (props) => <div>Unimplemented.</div>,
   YouTube: ({ children, icon, title, videoId, className='', ...props }: YouTubeProps) => 
-    <Block className={'document-YouTube '+className}>
+    <Block className={'Doc-YouTube '+className}>
       <iframe
         src={`https://www.youtube.com/embed/${videoId}`}
         frameBorder="0"

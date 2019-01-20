@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { DocumentContext } from '../DocumentContext'
+import { DocContext } from '../DocContext'
 
 export interface TangentProps extends React.HTMLAttributes<any> {
   children: React.ReactNode
@@ -7,7 +7,7 @@ export interface TangentProps extends React.HTMLAttributes<any> {
 }
 
 export class Tangent extends React.Component<TangentProps> {
-  static contextType = DocumentContext
+  static contextType = DocContext
 
   render() {
     return <this.context.components.Tangent {...this.props} />

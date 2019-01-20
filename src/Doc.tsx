@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { MDXTag, MDXProvider } from '@mdx-js/tag'
-import { DocumentComponents, DocumentContext } from './DocumentContext'
+import { DocComponents as DocComponents, DocContext as DocContext } from './DocContext'
 import { extractInlineDemoboardProps } from './extractInlineDemoboardProps'
 import { shallowCompare } from './shallowCompare'
 
@@ -17,31 +17,31 @@ import { Tangent } from './content/Tangent'
 import { Tweet } from './content/Tweet'
 import { YouTube } from './content/YouTube'
 
-import { Aside } from './layout/Aside'
-import { AsideOrAfter } from './layout/AsideOrAfter'
+import { Aside, AsideTop } from './layout/Aside'
 import { Block } from './layout/Block'
+import { Float } from './layout/Float'
 import { Gutter } from './layout/Gutter'
 
-import styles from './DocumentLayout.module.scss'
+import styles from './DocLayout.module.scss'
 
 
-export interface DocumentProps<DocumentComponentProps = any> {
+export interface DocProps<MDXComponentProps = any> {
   /**
-   * The MDX Document component to render.
+   * The MDX Doc component to render.
    */
   MDXComponent?: React.ComponentType
   children?: React.ReactNode
 
   /**
    * Allows configuration of the components used to render different parts of
-   * the document.
+   * the Doc.
    */
-  components?: Partial<DocumentComponents>
+  components?: Partial<DocComponents>
 
   /**
-   * Props that will be passed through to the rendered Document Component
+   * Props that will be passed through to the rendered Doc Component
    */
-  documentProps?: DocumentComponentProps
+  props?: MDXComponentProps
 
   /**
    * Helper files that will be available to use within inline live editors
@@ -71,11 +71,11 @@ export interface DocumentProps<DocumentComponentProps = any> {
 }
 
 /**
- * A component that wraps an MDX Document function, maintaining a table of
- * contents and the current position within the document. It also allows
- * scrolling within the document by hash.
+ * A component that wraps an MDX Doc function, maintaining a table of
+ * contents and the current position within the Doc. It also allows
+ * scrolling within the Doc by hash.
  */
-export class Document extends React.Component<DocumentProps> {
+export class Doc extends React.Component<DocProps> {
   static HideWhenStatic = HideWhenStatic
   static Restricted = Restricted
 
@@ -90,16 +90,17 @@ export class Document extends React.Component<DocumentProps> {
   static YouTube = YouTube
 
   static Aside = Aside
-  static AsideOrAfter = AsideOrAfter
+  static AsideTop = AsideTop
   static Block = Block
+  static Float = Float
   static Gutter = Gutter
 
-  static contextType = DocumentContext
+  static contextType = DocContext
 
   private getComponentType(type: string) {
     return (
       (this.props.components && this.props.components[type]) ||
-      (this.context as DocumentContext).components[type] ||
+      (this.context as DocContext).components[type] ||
       type
     )
   }
@@ -156,7 +157,7 @@ export class Document extends React.Component<DocumentProps> {
     wrapper: (props) => (
       React.createElement(this.getComponentType('wrapper'), {
         ...props,
-        className: styles.Document+' '+this.props.className,
+        className: styles.Doc+' '+(this.props.className || ''),
         id: this.props.id,
         style: this.props.style,
       })
@@ -178,9 +179,9 @@ export class Document extends React.Component<DocumentProps> {
     h6: this.createBlockRenderer('h6'),
   }
 
-  // Documents can be pretty heavy, and should be pure,
+  // Docs can be pretty heavy, and should be pure,
   // so we want to avoid re-rendering them where possible.
-  shouldComponentUpdate(nextProps: DocumentProps) {
+  shouldComponentUpdate(nextProps: DocProps) {
     let lastProps = this.props
 
     return (
@@ -188,7 +189,7 @@ export class Document extends React.Component<DocumentProps> {
       lastProps.children !== nextProps.children ||
       lastProps.canAccessRestrictedContent !== nextProps.canAccessRestrictedContent ||
       lastProps.className !== nextProps.className ||
-      !shallowCompare(lastProps.documentProps, nextProps.documentProps) ||
+      !shallowCompare(lastProps.props, nextProps.props) ||
       !shallowCompare(lastProps.demoboardHelpers, nextProps.demoboardHelpers) ||
       !shallowCompare(lastProps.demoboardMagicFiles, nextProps.demoboardMagicFiles) ||
       lastProps.id !== nextProps.id ||
@@ -200,9 +201,9 @@ export class Document extends React.Component<DocumentProps> {
   render() {
     // Separate our custom components from the MDX components
     let components = {
-      ...(this.context as DocumentContext).components,
+      ...(this.context as DocContext).components,
       ...this.props.components!,
-    } as DocumentComponents
+    } as DocComponents
 
     let {
       wrapper,
@@ -228,7 +229,7 @@ export class Document extends React.Component<DocumentProps> {
 
     let content = this.props.MDXComponent ? (
       <MDXProvider components={mdxComponents}>
-        <this.props.MDXComponent {...this.props.documentProps} />
+        <this.props.MDXComponent {...this.props.props} />
       </MDXProvider>
     ) : (
       this.components.wrapper({
@@ -237,13 +238,13 @@ export class Document extends React.Component<DocumentProps> {
     )
 
     return (
-      <DocumentContext.Provider value={{
+      <DocContext.Provider value={{
         canAccessRestrictedContent: !!this.props.canAccessRestrictedContent,
         components,
         isStatic: !!this.props.isStatic,
       }}>
         {content}
-      </DocumentContext.Provider>
+      </DocContext.Provider>
     )
   }
 }

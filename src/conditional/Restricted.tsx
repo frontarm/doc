@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { DocumentContext } from '../DocumentContext'
+import { DocContext } from '../DocContext'
 import { HideWhenStatic } from './HideWhenStatic'
 
 export interface RestrictedProps {
@@ -8,7 +8,7 @@ export interface RestrictedProps {
 }
 
 export class Restricted extends React.Component<RestrictedProps> {
-  static contextType = DocumentContext
+  static contextType = DocContext
 
   render() {
     return (

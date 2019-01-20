@@ -1,7 +1,11 @@
 import * as React from 'react'
-import { DocumentContext } from '../DocumentContext'
+import { DocContext } from '../DocContext'
+import { wrapWithAsideOrFloat } from './helpers'
 
 export interface ImageProps {
+  aside?: boolean
+  floatInset?: string
+
   children?: React.ReactNode
   icon?: any
   title?: any
@@ -14,9 +18,12 @@ export interface ImageProps {
 }
 
 export class Image extends React.Component<ImageProps> {
-  static contextType = DocumentContext
+  static contextType = DocContext
 
   render() {
-    return <this.context.components.Image {...this.props} />
+    return wrapWithAsideOrFloat(
+      this.props, 
+      props => <this.context.components.Image {...props} />
+    )
   }
 }

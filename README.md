@@ -1,37 +1,48 @@
-@frontarm/document
+@frontarm/doc
 ==================
 
 > A set of components for creating rich, responsive documents built around MDX.
 
-[![NPM](https://img.shields.io/npm/v/@frontarm/document.svg)](https://www.npmjs.com/package/@frontarm/document) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![NPM](https://img.shields.io/npm/v/@frontarm/doc.svg)](https://www.npmjs.com/package/@frontarm/doc) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
 ## Install
 
 ```bash
-npm install --save @frontarm/document
+npm install --save @frontarm/doc
 ```
 
-Designed wit the assumption that there'll be 250px of sidebar or extra margin from windows with width of 1101px or up.
 
+Design notes
+-----
+
+- Styles are designed with the assumption that there'll be 250px of sidebar on windows with width of 1101px or up.
+
+- This library is pretty raw, and you can break things by messing with the styles on
+  blocks, asides, and gutters. Unfortunately, you need can't escape messing with the styles on blocks.
+  so think of this more as a shitty but useful tool for creating websites with documents with a
+  two-column layout -- not a self-contained library that is useful for specifying documents without
+  any other work. You *will* probably need to use media queries in your theme. You *will* need to
+  be careful of your use of "margin". Global margin styles *will* make your life miserable.
+  
 
 Main Components
 ---------------
 
-### `<Document>`
+### `<Doc>`
 
-Expects an MDX component as its `Component` prop.
+Expects an MDX component as its `MDXComponent` prop.
 
-Like MDX components, the components that are used to render each type of Document component can be configured, either by passing in a `components` object to your `<Document>` component, or by using a `<DocumentProvider>` component.
+Like MDX components, the components that are used to render each type of Document component can be configured, either by passing in a `components` object to your `<Doc>` component, or by using a `<DocProvider>` component.
 
 #### `props
 
-- `Component`
+- `MDXComponent`
 
   The MDX Document component to render.
 
-- `documentProps?: DocumentProps`
+- `props?: any`
 
-  Props that will be passed through to the rendered Document Component
+  Props that will be passed through to the rendered MDXComponent
 
 - `demoboardHelpers?: { [name: string]: string }`
 
@@ -46,7 +57,7 @@ Like MDX components, the components that are used to render each type of Documen
   If true, any nested `<HideWhenStatic>` blocks will not be shown.
 
 
-### `<DocumentProvider components children>`
+### `<DocProvider components children>`
 
 Merges in default values for the `components` object of any child `<Component>` elements.
 
@@ -119,59 +130,74 @@ Layout Components
 
 Layout components are not configurable
 
-### `<Document.AsideOrAfter aside children>`
-
-Renders the `aside` element on the right of `children` if there's space, but when collpasing to a single column, renders the `aside` element underneath `children`.
-
-### `<Document.Block children>`
+### `<Doc.Block children>`
 
 Renders a block of content in the left column.
 
-### `<Document.Aside children>`
+### `<Doc.Aside children>`
 
-Floats a block of content right of the following columns, similar to how floats in CSS work.
+Floats a block of content right of the following columns, similar to how floats in CSS work, but
+can be raise up to the position of the top of the wrapping `<AsideTop>` div.
 
-### `<Document.FullBlock children>`
+```
+TODO: format this info better:
 
-Renders a block of content that takes the full width of the `<Document>` component, allowing you to choose your own margins.
 
-### `<Document.DoubleBlock children>`
+"Block" (gutterless?):
 
-Renders a block of content that takes up the width of both columns, if they're available.
+- center align on single column
+- left align on twin column
+- add a gutter (i.e. minimum left/right spacing around the element) if one isn't specified around it,
+  unless "gutterless?" is specified.
+- can *not* have margins added to it, as content needs to have left/right margin of "auto"
+  to accomodate horizontal centering without a container, which would (I think) break floated asides
+  and full width stuff
+
+
+"Aside"/"Float":
+
+- will center align on single column, with extra spacing compared to "Block" to accomodate a gutter
+- will float right on twin column
+- can only have margins added to it when not centered.
+
+  - nested "Block" will have a gutter added, but it can be wrapped in other
+    styles and have margins added
+
+
+"Gutter" (half?) (left?) (right?):
+
+- add a minimum left/right spacing around the element
+- can not have margins added to it
+- is useful for adding spacing around full-width and aside elements 
+
+  - nested "Block" will have its gutter replaced by this block
+```
 
 
 Conditional Rendering Components
 --------------------------------
 
-### `<Document.HideWhenStatic children>`
+### `<Doc.HideWhenStatic children>`
 
 Hides its children when the document is being statically built -- useful for parts of the document that vary between guest and pro members.
 
-### `<Document.Restricted restricted? children>`
+### `<Doc.Restricted restricted? children>`
 
-Show the children only when the viewer has full access to the document. If the viewer doesn't have full access, show the `restricted` element instead.
+Show the children only when the viewer has full access to the Doc. If the viewer doesn't have full access, show the `restricted` element instead.
 
 
 Code blocks
 -----------
 
-When Markdown code blocks begin with the line `//---`, they'll be turned into `<Document.Demoboard>` elements. Otherwise, they'll be treated as code listings, which are rendered with the standard `codeBlock` component.
+When Markdown code blocks begin with the line `//---`, they'll be turned into `<Doc.Demoboard>` elements. Otherwise, they'll be treated as code listings, which are rendered with the standard `codeBlock` component.
 
-Demoboard code blocks will be split into sections denoted by `//---`. The first section contains configuration that will be passed as props to the `<Document.Demoboard>` component. The following sections will be treated differently depending on how they start:
+Demoboard code blocks will be split into sections denoted by `//---`. The first section contains configuration that will be passed as props to the `<Doc.Demoboard>` component. The following sections will be treated differently depending on how they start:
 
 - `--- filename`
 
   Treats the following lines as a source file with the specified filename
 
-- `-- solution:filename`
-
-  Treats the following lines as a solution for the specified filename
-
-- `--- magic:filename`
-
-  Treats the following lines as a magic file with the specified filename
-
-- `... <-- helperFilename`
+- `--- filename <-- helperFilename`
 
   Creates a file, solution or magic file from the helper with the given name.
 
@@ -202,7 +228,7 @@ const isDone = true
 }
 ```
 
-Note that while this inline syntax is great for small, quick examples, for bigger examples you might find it easier to manually add a `<Document.Demoboard>` element.
+Note that while this inline syntax is great for small, quick examples, for bigger examples you might find it easier to manually add a `<Doc.Demoboard>` element.
 
 
 `components` object
@@ -228,13 +254,6 @@ The `components` object can be passed to an individual `<Document>`, or can be p
 - `Tangent`
 - `Video`: *also includes a `hasAccess` boolean*
 
-### Layout components
-
-- `AsideOrAfter`
-- `LeftBlock`
-- `FloatRight`
-- `FullBlock`
-- `DoubleBlock`
 
 
 ## License

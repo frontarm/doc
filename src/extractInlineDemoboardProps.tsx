@@ -140,7 +140,7 @@ function addLeadingSlash(str: string) {
   return str[0] === '/' ? str : '/'+str
 }
 
-// // Take a mixed collection of files, and split into documents and their
+// // Take a mixed collection of files, and split into Docs and their
 // // solutions by checking for files that start with 'solution:'
 // function splitSourcesAndSolutions(files: { [name: string]: string }) {
 //   let sources = {} as { [name: string]: string }

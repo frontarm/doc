@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { DocumentContext } from '../DocumentContext'
+import { DocContext } from '../DocContext'
 
 export interface SpoilerProps extends React.HTMLAttributes<any> {
   children: React.ReactNode
@@ -7,7 +7,7 @@ export interface SpoilerProps extends React.HTMLAttributes<any> {
 }
 
 export class Spoiler extends React.Component<SpoilerProps> {
-  static contextType = DocumentContext
+  static contextType = DocContext
 
   render() {
     return <this.context.components.Spoiler title='Spoiler' {...this.props} />

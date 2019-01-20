@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom'
 import * as Navi from 'navi'
 import './index.css'
 import App from './App'
-import { defaultDocumentComponents, Document } from '@frontarm/document'
+import { defaultDocComponents, Doc } from '@frontarm/doc'
 import { Tweet } from './Tweet'
 
 
-defaultDocumentComponents.Tweet = ({ className='', ...props }) =>
-    <Document.Block className={'document-Tweet '+className}>
+defaultDocComponents.Tweet = ({ className='', ...props }) =>
+    <Doc.Block className={'document-Tweet '+className}>
       <Tweet {...props} />
-    </Document.Block>
+    </Doc.Block>
   
 
 let pages = Navi.createSwitch({

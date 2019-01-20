@@ -1,7 +1,11 @@
 import * as React from 'react'
-import { DocumentContext } from '../DocumentContext'
+import { DocContext } from '../DocContext'
+import { wrapWithAsideOrFloat } from './helpers'
 
 export interface TweetProps {
+  aside?: boolean
+  floatInset?: string
+
   tweetId: string
   options?: object
   onLoad?: Function
@@ -12,9 +16,12 @@ export interface TweetProps {
 }
 
 export class Tweet extends React.Component<TweetProps> {
-  static contextType = DocumentContext
+  static contextType = DocContext
 
   render() {
-    return <this.context.components.Tweet {...this.props} />
+    return wrapWithAsideOrFloat(
+      this.props,
+      props => <this.context.components.Tweet {...props} />
+    )
   }
 }

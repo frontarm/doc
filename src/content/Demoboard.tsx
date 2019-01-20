@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { DocumentContext } from '../DocumentContext'
+import { DocContext } from '../DocContext'
 
 export interface DemoboardProps {
   /**
@@ -13,7 +13,7 @@ export interface DemoboardProps {
 
   /**
    * If true, readers won't be able to use the demoboard unless
-   * `canAccessRestrictedContent` is also passed to the parent `<Document>`
+   * `canAccessRestrictedContent` is also passed to the parent `<Doc>`
    * element.
    */
   restricted?: boolean
@@ -57,7 +57,7 @@ export interface DemoboardProps {
 }
 
 export class Demoboard extends React.Component<DemoboardProps> {
-  static contextType = DocumentContext
+  static contextType = DocContext
 
   render() {
     return (

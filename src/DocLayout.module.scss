@@ -1,0 +1,168 @@
+// Export the variables as part of the CSS module
+@value sizes: "../sizes.module.css";
+@value singleColumnGutter, twinColumnGutter, maxSingleBodyWidth, maxTwinBodyWidth, minAsideWidth, maxSingleWidth from sizes;
+
+@mixin when-single-column {
+  @media (max-width: maxSingleWidth) {
+    @content;
+  }
+}
+@mixin when-twin-column {
+  @media (min-width: calc(maxSingleWidth + 1px)) {
+    @content;
+  }
+}
+
+.Doc {
+  position: relative;
+
+  // These can be used as variables by the app when calculating float insets.
+  --single-column-gutter: singleColumnGutter;
+  --twin-column-gutter: twinColumnGutter;
+  --max-single-body-width: maxSingleBodyWidth;
+  --max-twin-body-width: maxTwinBodyWidth;
+  --min-aside-width: minAsideWidth;
+  --max-single-width: maxSingleWidth;
+}
+
+.Aside,
+.Float {
+  @include when-single-column {
+    max-width: calc(maxSingleBodyWidth + singleColumnGutter*2);
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+}
+
+@include when-twin-column {
+  .Aside {
+    position: absolute;
+    right: 0;
+    min-width: minAsideWidth;
+    width: calc(100% - maxTwinBodyWidth - twinColumnGutter);
+  }
+  .Float {
+    box-sizing: content-box;
+    float: right;
+  }
+}
+@include when-single-column {
+  .Float {
+    // The twin column value is set via inline style.
+    width: 100% !important;
+    min-width: none !important;
+  }
+}
+
+.AsideTop {
+  position: relative;
+
+  @include when-twin-column {
+    .Aside {
+      top: 0;
+    }
+  }
+}
+
+.Block {
+  box-sizing: border-box;
+
+  @include when-single-column {
+    max-width: maxSingleBodyWidth;
+    margin-left: auto;
+    margin-right: auto;
+    width: calc(100% - singleColumnGutter * 2);
+  }
+  @include when-twin-column {
+    max-width: maxTwinBodyWidth;
+    margin-left: twinColumnGutter;
+    margin-right: twinColumnGutter;
+    width: calc(100% - minAsideWidth - twinColumnGutter*3);
+  }
+  
+  .Aside &,
+  .Float & {
+    @include when-single-column {
+      margin-left: singleColumnGutter;
+      margin-right: singleColumnGutter;
+      width: calc(100% - singleColumnGutter * 2);
+    }
+    @include when-twin-column {
+      margin-left: twinColumnGutter;
+      margin-right: twinColumnGutter;
+      width: calc(100% - twinColumnGutter * 2);
+    }
+    max-width: none;
+    width: 100%;
+  }
+
+  // When a gutter is manually specified around a block, use that instead
+  // of applying gutter styles -- but still use the specified max width
+  // -- even if inside an Aside.
+  .Gutter & {
+    @include when-twin-column {
+      margin-left: 0;
+      margin-right: 0;
+    }
+  }
+}
+
+.Gutter {
+  @include when-single-column {
+    &.half.left {
+      padding-left: calc(singleColumnGutter/2);
+    }
+    &.half.right {
+      padding-right: calc(singleColumnGutter/2);
+    }
+    &.half.left .Block,
+    &.half.right .Block {
+      max-width: calc(maxSingleBodyWidth + singleColumnGutter/2);
+    }
+    &.half.left.right .Block {
+      max-width: calc(maxSingleBodyWidth + singleColumnGutter);
+    }
+
+    &.full.left {
+      padding-left: singleColumnGutter;
+    }
+    &.full.right {
+      padding-right: singleColumnGutter;
+    }
+
+    .Block {
+      width: 100%;
+    }
+  }
+  @include when-twin-column {
+    &.half.left {
+      padding-left: calc(twinColumnGutter/2);
+    }
+    &.half.right {
+      padding-right: calc(twinColumnGutter/2);
+    }
+    &.half.left .Block,
+    &.half.right .Block {
+      max-width: calc(maxTwinBodyWidth + twinColumnGutter/2);
+    }
+    &.half.left.right .Block {
+      max-width: calc(maxTwinBodyWidth + twinColumnGutter);
+    }
+    &.full.left {
+      padding-left: twinColumnGutter;
+    }
+    &.full.right {
+      padding-right: twinColumnGutter;
+    }
+  }
+}
+
+// Nested blocks effectively don't do anything.
+.Block .Block,
+.Block .Gutter .Block {
+  margin-left: 0;
+  margin-right: 0;
+  max-width: none;
+  width: 100%;
+}

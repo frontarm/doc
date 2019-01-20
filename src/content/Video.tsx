@@ -1,12 +1,15 @@
 import * as React from 'react'
-import { DocumentContext } from '../DocumentContext'
+import { DocContext } from '../DocContext'
+import { wrapWithAsideOrFloat } from './helpers'
 
 export interface VideoProps {
+  aside?: boolean
+  floatInset?: string
+
   children?: React.ReactNode
   icon?: any
   restricted?: boolean
   title?: any
-  titleTagName?: string
   videoId: string
 
   className?: string
@@ -15,14 +18,16 @@ export interface VideoProps {
 }
 
 export class Video extends React.Component<VideoProps> {
-  static contextType = DocumentContext
+  static contextType = DocContext
 
   render() {
-    return (
-      <this.context.components.Video
-        {...this.props}
-        restricted={!this.context.canAccessRestrictedContent && this.props.restricted}
-      />
+    return wrapWithAsideOrFloat(
+      this.props,
+      props =>
+        <this.context.components.Video
+          {...props}
+          restricted={!this.context.canAccessRestrictedContent && this.props.restricted}
+        />
     )
   }
 }

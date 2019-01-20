@@ -1,5 +1,5 @@
 import * as React from 'react'
-import styles from '../DocumentLayout.module.scss'
+import styles from '../DocLayout.module.scss'
 
 export interface BlockProps {
   Component?: string | React.ComponentType<{
