@@ -25,7 +25,7 @@ export function Float({
       className={styles.Float+' '+className}
       id={id}
       style={{
-        minWidth: minWidth,
+        minWidth: `calc(${minWidth} + ${styles.largeGutter}*2)`,
         width: `calc(100% - ${styles.maxTwinBodyWidth} - ${styles.largeGutter} + ${inset})`,
         ...style
       }}
