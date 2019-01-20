@@ -39,7 +39,7 @@
   .Aside {
     position: absolute;
     right: 0;
-    min-width: minAsideWidth;
+    min-width: calc(minAsideWidth + twinColumnGutter*2);
     width: calc(100% - maxTwinBodyWidth - twinColumnGutter);
   }
   .Float {
@@ -94,7 +94,6 @@
       width: calc(100% - twinColumnGutter * 2);
     }
     max-width: none;
-    width: 100%;
   }
 
   // When a gutter is manually specified around a block, use that instead
