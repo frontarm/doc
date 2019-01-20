@@ -1,5 +1,11 @@
 @import '../layout.scss';
 
+@mixin blocks($extra: "") {
+  #{$extra}.Block, p, ul, ol, img, hr, blockquote, h1, h2, h3, h4, h5, h6 {
+    @content;
+  }
+}
+
 // Export the variables as part of the CSS module
 @value smallGutter: #{$smallGutter};
 @value largeGutter: #{$largeGutter};
@@ -20,8 +26,8 @@
   --max-single-width: maxSingleWidth;
 }
 
-.Aside,
-.Float {
+.Doc .Aside,
+.Doc .Float {
   box-sizing: border-box;
 
   @include when-single-column {
@@ -38,27 +44,27 @@
 }
 
 @include when-twin-column {
-  .Aside {
+  .Doc .Aside {
     position: absolute;
     right: 0;
     min-width: calc(minAsideWidth + largeGutter*2);
     width: calc(100% - maxTwinBodyWidth - largeGutter);
   }
-  .Float {
+  .Doc .Float {
     // width: DEFINED WITH INLINE STYLE;
     // min-width: DEFINED WITH INLINE STYLE;
     float: right;
   }
 }
 @include when-single-column {
-  .Float {
+  .Doc .Float {
     // Override the values that are set via inline style.
     width: 100% !important;
     min-width: none !important;
   }
 }
 
-.AsideTop {
+.Doc .AsideTop {
   position: relative;
 
   @include when-twin-column {
@@ -69,127 +75,135 @@
 }
 
 .Doc {
-  .Block, p, ul, ol, img, hr, blockquote, h1, h2, h3, h4, h5, h6 {
+  @include blocks {
     box-sizing: border-box;
+  }
 
-    @include when-small-single-column {
+  @include when-small-single-column {
+    @include blocks {
       max-width: maxSingleBodyWidth;
       width: calc(100% - smallGutter * 2);
+    }
 
-      .Block-margin-none &,
+    .Block {
       &.Block-margin-none {
         max-width: calc(maxSingleBodyWidth + smallGutter*2);
         width: 100%;
       }
-      .Block-margin-half &,
       &.Block-margin-half {
         max-width: calc(maxSingleBodyWidth + smallGutter);
         width: calc(100% - smallGutter);
       }
-      .Aside &,
-      .Float & {
-        margin-left: smallGutter;
-        margin-right: smallGutter;
-
-        .Block-margin-half &,
-        &.Block-margin-half {
-          margin-left: calc(smallGutter/2);
-          margin-right: calc(smallGutter/2);
-        }
-      }
     }
 
-    @include when-large-single-column {
+    .Aside, .Float {
+      @include blocks {
+        margin-left: smallGutter;
+        margin-right: smallGutter;
+      }
+
+      .Block.Block-margin-half {
+        margin-left: calc(smallGutter/2);
+        margin-right: calc(smallGutter/2);
+      }
+    }
+  }
+
+
+  @include when-large-single-column {
+    @include blocks {
       max-width: maxSingleBodyWidth;
       width: calc(100% - largeGutter * 2);
+    }
 
-      .Block-margin-none &,
+    .Block {
       &.Block-margin-none {
         max-width: calc(maxSingleBodyWidth + largeGutter*2);
         width: 100%;
       }
-      .Block-margin-half &,
       &.Block-margin-half {
         max-width: calc(maxSingleBodyWidth + largeGutter*1);
         width: calc(100% - largeGutter);
       }
+    }
 
-      .Aside &,
-      .Float & {
+    .Aside, .Float {
+      @include blocks {
         margin-left: largeGutter;
         margin-right: largeGutter;
+      }
 
-        .Block-margin-half &,
-        &.Block-margin-half {
-          margin-left: calc(largeGutter/2);
-          margin-right: calc(largeGutter/2);
-        }
+      .Block.Block-margin-half {
+        margin-left: calc(largeGutter/2);
+        margin-right: calc(largeGutter/2);
       }
     }
+  }
 
-    @include when-single-column {
+  @include when-single-column {
+    @include blocks {
       margin-left: auto;
       margin-right: auto;
-
-      .Aside &,
-      .Float & {
-        .Block-margin-none &,
-        &.Block-margin-none {
-          margin-left: 0;
-          margin-right: 0;
-        }
-      }
     }
 
-    @include when-twin-column {
+    .Aside, .Float {
+      .Block.Block-margin-none {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
+  }
+
+  @include when-twin-column {
+    @include blocks {
       margin-left: largeGutter;
       margin-right: largeGutter;
       max-width: maxTwinBodyWidth;
       width: calc(100% - minAsideWidth - largeGutter*3);
+    }
 
-      .Block-margin-none &,
-      &.Block-margin-none {
-        margin-left: 0;
-        margin-right: 0;
-        max-width: calc(maxTwinBodyWidth + largeGutter*2);
-        width: calc(100% - minAsideWidth - largeGutter);
-      }
-      .Block-margin-half &,
-      &.Block-margin-half {
-        margin-left: calc(largeGutter/2);
-        margin-right: calc(largeGutter/2);
-        max-width: calc(maxTwinBodyWidth + largeGutter);
-        width: calc(100% - minAsideWidth - largeGutter*2);
-      }
+    .Block.Block-margin-none {
+      margin-left: 0;
+      margin-right: 0;
+      max-width: calc(maxTwinBodyWidth + largeGutter*2);
+      width: calc(100% - minAsideWidth - largeGutter);
+    }
+    .Block.Block-margin-half {
+      margin-left: calc(largeGutter/2);
+      margin-right: calc(largeGutter/2);
+      max-width: calc(maxTwinBodyWidth + largeGutter);
+      width: calc(100% - minAsideWidth - largeGutter*2);
+    }
 
-      .Aside &,
-      .Float & {
+    .Aside, .Float {
+      @include blocks {
         width: calc(100% - largeGutter*2);
+      }
 
-        .Block-margin-none &,
+      .Block {
         &.Block-margin-none {
           width: calc(100%);
         }
-        .Block-margin-half &,
         &.Block-margin-half {
           width: calc(100% - largeGutter);
         }
-      }     
+      }
     }
-    
-    .Aside &,
-    .Float & {
+  }
+
+  .Aside, .Float {
+    @include blocks {
       max-width: none;
     }
+  }
 
-    // Nested blocks lose all their layout styles.
-    .Escape, & {
-      .Block, p, ul, ol, img, hr, blockquote, h1, h2, h3, h4, h5, h6 {
-        margin-left: 0;
-        margin-right: 0;
-        max-width: none;
-        width: auto;
-      }
+  // Nested blocks lose all their layout styles.
+  @include blocks(".Escape, ") {
+    @include blocks {
+      margin-left: 0;
+      margin-right: 0;
+      max-width: none;
+      width: auto;
     }
   }
 }

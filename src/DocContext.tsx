@@ -136,17 +136,17 @@ Object.assign(defaultDocComponents, {
 
   // Add a class to the wrapper to add layout-related styles to it
   wrapper: ({ className='', ...props }) =>
-    <div {...props} className={'Doc-wrapper '+className} />
+    <div {...props} className={'doc-wrapper '+className} />
   ,
 
   headingLink: ({ className='', ...props }) =>
-    <NavLink href={props.href} className={'Doc-headingLink '+className}>
+    <NavLink href={props.href} className={'doc-headingLink '+className}>
       #
     </NavLink>
   ,
   
   Beware: ({ children, className='', title, ...props }) =>
-    <Block Component='aside' {...props} className={'Doc-Beware '+className}>
+    <Block Component='aside' {...props} className={'doc-Beware '+className}>
       <header>
         {title}
       </header>
@@ -154,7 +154,7 @@ Object.assign(defaultDocComponents, {
     </Block>
   ,
   Demoboard: ({ className='', id, editorPathname, sources, style }: DemoboardProps) =>
-    <Block Component='pre' className={'Doc-Demoboard'+' '+className}>
+    <Block Component='pre' className={'doc-Demoboard'+' '+className}>
       <code
         id={id}
         style={style}>
@@ -163,7 +163,7 @@ Object.assign(defaultDocComponents, {
     </Block>
   ,
   Details: ({ children, className='', icon, title, ...props }) =>
-    <Block Component='aside' {...props} className={'Doc-Details '+className}>
+    <Block Component='aside' {...props} className={'doc-Details '+className}>
       <header>
         {title}
       </header>
@@ -172,11 +172,11 @@ Object.assign(defaultDocComponents, {
   ,
   Image: ({ children, className='', title, width, height, style, ...props }) =>
     <Block>
-      <img {...props} style={{ width, height, ...style }} className={'Doc-Image' +className} />
+      <img {...props} style={{ width, height, ...style }} className={'doc-Image' +className} />
     </Block>
   ,
   Spoiler: ({ children, className='', title, ...props }) =>
-    <Block Component='section' {...props} className={'Doc-Spoiler '+className}>
+    <Block Component='section' {...props} className={'doc-Spoiler '+className}>
       <header>
         {title}
       </header>
@@ -184,14 +184,14 @@ Object.assign(defaultDocComponents, {
     </Block>
   ,
   Tangent: ({ children, className='', ...props }) =>
-    <Aside {...props} className={'Doc-Tangent '+className}>
+    <Aside {...props} className={'doc-Tangent '+className}>
       {children}
     </Aside>
   ,
   Tweet: (props) => <div>Unimplemented.</div>,
   Video: (props) => <div>Unimplemented.</div>,
   YouTube: ({ children, icon, title, videoId, className='', ...props }: YouTubeProps) => 
-    <Block className={'Doc-YouTube '+className}>
+    <Block className={'doc-YouTube '+className}>
       <iframe
         src={`https://www.youtube.com/embed/${videoId}`}
         frameBorder="0"
