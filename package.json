@@ -1,6 +1,6 @@
 {
   "name": "@frontarm/doc",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "A set of components for creating rich, responsive documents built around MDX.",
   "author": "James K Nelson <james@frontarm.com>",
   "license": "MIT",

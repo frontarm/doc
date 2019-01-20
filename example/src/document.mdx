@@ -167,6 +167,23 @@ export default function Reference() {
 Step 2: Create `navigation`
 ---------------------------
 
+<Doc.Float minWidth='50%'>
+<Doc.Gutter>
+<div style={{ border: '2px solid green' }}>
+<header>
+<Doc.Gutter half>
+<h4>Test</h4>
+</Doc.Gutter>
+</header>
+<Doc.Gutter half>
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+
+</Doc.Gutter>
+</div>
+</Doc.Gutter>
+</Doc.Float>
+
 Navi does all of the hard work within a `Navigation` object. This is where Navi watches for history events, matches URLs to pages and content, and turns all of this info into an object that you can use.
 
 To create a `Navigation`, just call `createBrowserNavigation()` within `index.js`, passing in the `pages` object that you defined earlier. Once you have a `Navigation`, just wait for its initial content to become available -- and then render it!

@@ -97,12 +97,15 @@
   }
 
   // When a gutter is manually specified around a block, use that instead
-  // of applying gutter styles -- but still use the specified max width
-  // -- even if inside an Aside.
-  .Gutter & {
-    @include when-twin-column {
+  // of applying gutter styles.
+  @include when-twin-column {
+    .Gutter & {
       margin-left: 0;
       margin-right: 0;
+    }
+    .Aside .Gutter &,
+    .Float .Gutter & {
+      width: 100%;
     }
   }
 }
