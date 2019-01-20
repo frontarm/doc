@@ -44,13 +44,11 @@ Test Test
 This is extra info that you might find handy.
 
 </Doc.Details>
-<div style={{backgroundColor: 'lightblue'}}>
-<Doc.Gutter>
+<Doc.Block marginSize='half' style={{backgroundColor: 'lightblue'}}>
 
 Test
 
-</Doc.Gutter>
-</div>
+</Doc.Block>
 </Doc.Aside>
 </Doc.AsideTop>
 
@@ -59,19 +57,19 @@ Step 1: Declare some pages
 
 <Doc.YouTube floatInset='200px' videoId='PkIS_Xgf1zc' />
 
-<Doc.Gutter half>
+<Doc.Block marginSize='half'>
 
 To declare your pages, you'll use Navi's `createSwitch()` and `createPage()` functions. Switches are used to map URL paths to pages. Pages represent individual locations that you can navigate to.
 
 Test Test Test
 
-</Doc.Gutter>
+</Doc.Block>
 
 ```
 hello
 ```
 
-<Doc.Gutter half>
+<Doc.Block marginSize='half'>
 
 ```js
 //---
@@ -135,7 +133,7 @@ main()
 //--- App.js <-- App.js
 ```
 
-</Doc.Gutter>
+</Doc.Block>
 
 <Doc.Float inset='5rem'>
 <Doc.Details>
@@ -168,20 +166,18 @@ Step 2: Create `navigation`
 ---------------------------
 
 <Doc.Float minWidth='50%'>
-<Doc.Gutter>
-<div style={{ border: '2px solid green' }}>
+<Doc.Block style={{ border: '2px solid green' }}>
 <header>
-<Doc.Gutter half>
+<Doc.Gutter half horizontal>
 <h4>Test</h4>
 </Doc.Gutter>
 </header>
-<Doc.Gutter half>
+<Doc.Gutter half horizontal>
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 
 </Doc.Gutter>
-</div>
-</Doc.Gutter>
+</Doc.Block>
 </Doc.Float>
 
 Navi does all of the hard work within a `Navigation` object. This is where Navi watches for history events, matches URLs to pages and content, and turns all of this info into an object that you can use.

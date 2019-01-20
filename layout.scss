@@ -1,0 +1,29 @@
+$smallGutter: 20px;
+$largeGutter: 32px;
+$maxSingleBodyWidth: 700px;
+$maxTwinBodyWidth: 602px;
+$minAsideWidth: 250px;
+$maxSingleWidth: 1100px;
+
+$maxSmallSingleColumn: $maxSingleBodyWidth + $largeGutter - $smallGutter;
+
+@mixin when-single-column {
+  @media (max-width: $maxSingleWidth) {
+    @content;
+  }
+}
+@mixin when-small-single-column {
+  @media (max-width: $maxSmallSingleColumn) {
+    @content;
+  }
+}
+@mixin when-large-single-column {
+  @media (min-width: $maxSmallSingleColumn + 1) and (max-width: $maxSingleWidth) {
+    @content;
+  }
+}
+@mixin when-twin-column {
+  @media (min-width: $maxSingleWidth) {
+    @content;
+  }
+}

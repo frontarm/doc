@@ -5,6 +5,7 @@ import { wrapWithAsideOrFloat } from './helpers'
 export interface TweetProps {
   aside?: boolean
   floatInset?: string
+  floatMinWidth?: string
 
   tweetId: string
   options?: object

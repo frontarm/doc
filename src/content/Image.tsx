@@ -5,6 +5,7 @@ import { wrapWithAsideOrFloat } from './helpers'
 export interface ImageProps {
   aside?: boolean
   floatInset?: string
+  floatMinWidth?: string
 
   children?: React.ReactNode
   icon?: any

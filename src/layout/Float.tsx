@@ -26,7 +26,7 @@ export function Float({
       id={id}
       style={{
         minWidth: minWidth,
-        width: `calc(100% - ${styles.maxTwinBodyWidth} - ${styles.twinColumnGutter} + ${inset})`,
+        width: `calc(100% - ${styles.maxTwinBodyWidth} - ${styles.largeGutter} + ${inset})`,
         ...style
       }}
     >

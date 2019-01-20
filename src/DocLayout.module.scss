@@ -1,24 +1,19 @@
-// Export the variables as part of the CSS module
-@value sizes: "../sizes.module.css";
-@value singleColumnGutter, twinColumnGutter, maxSingleBodyWidth, maxTwinBodyWidth, minAsideWidth, maxSingleWidth from sizes;
+@import '../layout.scss';
 
-@mixin when-single-column {
-  @media (max-width: maxSingleWidth) {
-    @content;
-  }
-}
-@mixin when-twin-column {
-  @media (min-width: calc(maxSingleWidth + 1px)) {
-    @content;
-  }
-}
+// Export the variables as part of the CSS module
+@value smallGutter: #{$smallGutter};
+@value largeGutter: #{$largeGutter};
+@value maxSingleBodyWidth: #{$maxSingleBodyWidth};
+@value maxTwinBodyWidth: #{$maxTwinBodyWidth};
+@value minAsideWidth: #{$minAsideWidth};
+@value maxSingleWidth: #{$maxSingleWidth};
 
 .Doc {
   position: relative;
 
   // These can be used as variables by the app when calculating float insets.
-  --single-column-gutter: singleColumnGutter;
-  --twin-column-gutter: twinColumnGutter;
+  --single-column-gutter: smallGutter;
+  --twin-column-gutter: largeGutter;
   --max-single-body-width: maxSingleBodyWidth;
   --max-twin-body-width: maxTwinBodyWidth;
   --min-aside-width: minAsideWidth;
@@ -27,11 +22,18 @@
 
 .Aside,
 .Float {
+  box-sizing: border-box;
+
   @include when-single-column {
-    max-width: calc(maxSingleBodyWidth + singleColumnGutter*2);
     margin-left: auto;
     margin-right: auto;
     width: 100%;
+  }
+  @include when-small-single-column {
+    max-width: calc(maxSingleBodyWidth + smallGutter*2);
+  }
+  @include when-large-single-column {
+    max-width: calc(maxSingleBodyWidth + largeGutter*2);
   }
 }
 
@@ -39,17 +41,18 @@
   .Aside {
     position: absolute;
     right: 0;
-    min-width: calc(minAsideWidth + twinColumnGutter*2);
-    width: calc(100% - maxTwinBodyWidth - twinColumnGutter);
+    min-width: calc(minAsideWidth + largeGutter*2);
+    width: calc(100% - maxTwinBodyWidth - largeGutter);
   }
   .Float {
-    box-sizing: content-box;
+    // width: DEFINED WITH INLINE STYLE;
+    // min-width: DEFINED WITH INLINE STYLE;
     float: right;
   }
 }
 @include when-single-column {
   .Float {
-    // The twin column value is set via inline style.
+    // Override the values that are set via inline style.
     width: 100% !important;
     min-width: none !important;
   }
@@ -68,103 +71,195 @@
 .Block {
   box-sizing: border-box;
 
-  @include when-single-column {
+  @include when-small-single-column {
     max-width: maxSingleBodyWidth;
+    width: calc(100% - smallGutter * 2);
+
+    .Block-margin-none &,
+    &.Block-margin-none {
+      max-width: calc(maxSingleBodyWidth + smallGutter*2);
+      width: 100%;
+    }
+    .Block-margin-half &,
+    &.Block-margin-half {
+      max-width: calc(maxSingleBodyWidth + smallGutter);
+      width: calc(100% - smallGutter);
+    }
+    .Aside &,
+    .Float & {
+      margin-left: smallGutter;
+      margin-right: smallGutter;
+
+      .Block-margin-half &,
+      &.Block-margin-half {
+        margin-left: calc(smallGutter/2);
+        margin-right: calc(smallGutter/2);
+      }
+    }
+  }
+
+  @include when-large-single-column {
+    max-width: maxSingleBodyWidth;
+    width: calc(100% - largeGutter * 2);
+
+    .Block-margin-none &,
+    &.Block-margin-none {
+      max-width: calc(maxSingleBodyWidth + largeGutter*2);
+      width: 100%;
+    }
+    .Block-margin-half &,
+    &.Block-margin-half {
+      max-width: calc(maxSingleBodyWidth + largeGutter*1);
+      width: calc(100% - largeGutter);
+    }
+
+    .Aside &,
+    .Float & {
+      margin-left: largeGutter;
+      margin-right: largeGutter;
+
+      .Block-margin-half &,
+      &.Block-margin-half {
+        margin-left: calc(largeGutter/2);
+        margin-right: calc(largeGutter/2);
+      }
+    }
+  }
+
+  @include when-single-column {
     margin-left: auto;
     margin-right: auto;
-    width: calc(100% - singleColumnGutter * 2);
+
+    .Aside &,
+    .Float & {
+      .Block-margin-none &,
+      &.Block-margin-none {
+        margin-left: 0;
+        margin-right: 0;
+      }
+    }
   }
+
   @include when-twin-column {
+    margin-left: largeGutter;
+    margin-right: largeGutter;
     max-width: maxTwinBodyWidth;
-    margin-left: twinColumnGutter;
-    margin-right: twinColumnGutter;
-    width: calc(100% - minAsideWidth - twinColumnGutter*3);
+    width: calc(100% - minAsideWidth - largeGutter*3);
+
+    .Block-margin-none &,
+    &.Block-margin-none {
+      margin-left: 0;
+      margin-right: 0;
+      max-width: calc(maxTwinBodyWidth + largeGutter*2);
+      width: calc(100% - minAsideWidth - largeGutter);
+    }
+    .Block-margin-half &,
+    &.Block-margin-half {
+      margin-left: calc(largeGutter/2);
+      margin-right: calc(largeGutter/2);
+      max-width: calc(maxTwinBodyWidth + largeGutter);
+      width: calc(100% - minAsideWidth - largeGutter*2);
+    }
+
+    .Aside &,
+    .Float & {
+      width: calc(100% - largeGutter*2);
+
+      .Block-margin-none &,
+      &.Block-margin-none {
+        width: calc(100%);
+      }
+      .Block-margin-half &,
+      &.Block-margin-half {
+        width: calc(100% - largeGutter);
+      }
+    }     
   }
   
   .Aside &,
   .Float & {
-    @include when-single-column {
-      margin-left: singleColumnGutter;
-      margin-right: singleColumnGutter;
-      width: calc(100% - singleColumnGutter * 2);
-    }
-    @include when-twin-column {
-      margin-left: twinColumnGutter;
-      margin-right: twinColumnGutter;
-      width: calc(100% - twinColumnGutter * 2);
-    }
     max-width: none;
   }
 
-  // When a gutter is manually specified around a block, use that instead
-  // of applying gutter styles.
-  @include when-twin-column {
-    .Gutter & {
-      margin-left: 0;
-      margin-right: 0;
-    }
-    .Aside .Gutter &,
-    .Float .Gutter & {
-      width: 100%;
-    }
+  // Nested blocks lose all their layout styles.
+  & .Block {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: none;
+    width: auto;
   }
 }
 
 .Gutter {
-  @include when-single-column {
-    &.half.left {
-      padding-left: calc(singleColumnGutter/2);
+  box-sizing: border-box;
+  padding: largeGutter;
+
+  &.top-half {
+    padding-top: calc(largeGutter/2);
+  }
+  &.right-half {
+    padding-right: calc(largeGutter/2);
+  }
+  &.bottom-half {
+    padding-bottom: calc(largeGutter/2);
+  }
+  &.left-half {
+    padding-left: calc(largeGutter/2);
+  }
+
+  &.top-double {
+    padding-top: calc(largeGutter*2);
+  }
+  &.right-double {
+    padding-right: calc(largeGutter*2);
+  }
+  &.bottom-double {
+    padding-bottom: calc(largeGutter*2);
+  }
+  &.left-double {
+    padding-left: calc(largeGutter*2);
+  }
+
+  @include when-small-single-column {
+    padding: smallGutter;
+
+    &.top-half {
+      padding-top: calc(smallGutter/2);
     }
-    &.half.right {
-      padding-right: calc(singleColumnGutter/2);
+    &.right-half {
+      padding-right: calc(smallGutter/2);
     }
-    &.half.left .Block,
-    &.half.right .Block {
-      max-width: calc(maxSingleBodyWidth + singleColumnGutter/2);
+    &.bottom-half {
+      padding-bottom: calc(smallGutter/2);
     }
-    &.half.left.right .Block {
-      max-width: calc(maxSingleBodyWidth + singleColumnGutter);
+    &.left-half {
+      padding-left: calc(smallGutter/2);
     }
 
-    &.full.left {
-      padding-left: singleColumnGutter;
+    &.top-double {
+      padding-top: calc(smallGutter*2);
     }
-    &.full.right {
-      padding-right: singleColumnGutter;
+    &.right-double {
+      padding-right: calc(smallGutter*2);
     }
-
-    .Block {
-      width: 100%;
+    &.bottom-double {
+      padding-bottom: calc(smallGutter*2);
+    }
+    &.left-double {
+      padding-left: calc(smallGutter*2);
     }
   }
-  @include when-twin-column {
-    &.half.left {
-      padding-left: calc(twinColumnGutter/2);
-    }
-    &.half.right {
-      padding-right: calc(twinColumnGutter/2);
-    }
-    &.half.left .Block,
-    &.half.right .Block {
-      max-width: calc(maxTwinBodyWidth + twinColumnGutter/2);
-    }
-    &.half.left.right .Block {
-      max-width: calc(maxTwinBodyWidth + twinColumnGutter);
-    }
-    &.full.left {
-      padding-left: twinColumnGutter;
-    }
-    &.full.right {
-      padding-right: twinColumnGutter;
-    }
-  }
-}
 
-// Nested blocks effectively don't do anything.
-.Block .Block,
-.Block .Gutter .Block {
-  margin-left: 0;
-  margin-right: 0;
-  max-width: none;
-  width: 100%;
+  &.top-none {
+    padding-top: 0;
+  }
+  &.right-none {
+    padding-right: 0;
+  }
+  &.bottom-none {
+    padding-bottom: 0;
+  }
+  &.left-none {
+    padding-left: 0;
+  }
 }

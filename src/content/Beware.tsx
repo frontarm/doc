@@ -5,6 +5,7 @@ import { wrapWithAsideOrFloat } from './helpers'
 export interface BewareProps extends React.HTMLAttributes<any> {
   aside?: boolean
   floatInset?: string
+  floatMinWidth?: string
 
   children: React.ReactNode
   title?: any

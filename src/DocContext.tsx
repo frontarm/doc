@@ -146,7 +146,7 @@ Object.assign(defaultDocComponents, {
   ,
   
   Beware: ({ children, className='', title, ...props }) =>
-    <Block Component='section' {...props} className={'Doc-Beware '+className}>
+    <Block Component='aside' {...props} className={'Doc-Beware '+className}>
       <header>
         {title}
       </header>
@@ -163,7 +163,7 @@ Object.assign(defaultDocComponents, {
     </Block>
   ,
   Details: ({ children, className='', icon, title, ...props }) =>
-    <Block Component='section' {...props} className={'Doc-Details '+className}>
+    <Block Component='aside' {...props} className={'Doc-Details '+className}>
       <header>
         {title}
       </header>

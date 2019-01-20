@@ -16,13 +16,13 @@ export function Aside({
   style,
 }: AsideProps) {
   return (
-    <aside
+    <div
       className={styles.Aside+' '+className}
       id={id}
       style={style}
     >
       {children}
-    </aside>
+    </div>
   )
 }
 
