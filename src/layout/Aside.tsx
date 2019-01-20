@@ -2,6 +2,13 @@ import * as React from 'react'
 import styles from '../DocLayout.module.scss'
 
 export interface AsideProps {
+  Component?: string | React.ComponentType<{
+    children?: React.ReactNode,
+    className: string,
+    id?: string,
+    style?: React.CSSProperties
+  }>,
+
   children: React.ReactNode
   
   className?: string
@@ -10,23 +17,31 @@ export interface AsideProps {
 }
 
 export function Aside({
+  Component='aside',
   children,
   className='',
   id,
   style,
 }: AsideProps) {
   return (
-    <div
+    <Component
       className={styles.Aside+' '+className}
       id={id}
       style={style}
     >
       {children}
-    </div>
+    </Component>
   )
 }
 
 export interface AsideTopProps {
+  Component?: string | React.ComponentType<{
+    children?: React.ReactNode,
+    className: string,
+    id?: string,
+    style?: React.CSSProperties
+  }>,
+
   children: React.ReactNode
   
   className?: string
@@ -35,15 +50,16 @@ export interface AsideTopProps {
 }
 
 export function AsideTop({
+  Component='div',
   children,
   className = '',
   id,
   style,
 }: AsideTopProps) {
   return (
-    <div className={styles.AsideTop+' '+className} id={id} style={style}>
+    <Component className={styles.AsideTop+' '+className} id={id} style={style}>
       {children}
-    </div>
+    </Component>
   )
 }
 

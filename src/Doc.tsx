@@ -19,6 +19,7 @@ import { YouTube } from './content/YouTube'
 
 import { Aside, AsideTop } from './layout/Aside'
 import { Block } from './layout/Block'
+import { Escape } from './layout/Escape'
 import { Float } from './layout/Float'
 import { Gutter } from './layout/Gutter'
 
@@ -92,6 +93,7 @@ export class Doc extends React.Component<DocProps> {
   static Aside = Aside
   static AsideTop = AsideTop
   static Block = Block
+  static Escape = Escape
   static Float = Float
   static Gutter = Gutter
 
@@ -103,14 +105,6 @@ export class Doc extends React.Component<DocProps> {
       (this.context as DocContext).components[type] ||
       type
     )
-  }
-
-  private createBlockRenderer(type: string) {
-    return props =>
-      React.createElement(this.getComponentType(type), {
-        ...props,
-        className: styles.Block
-      })
   }
 
   components = {
@@ -162,21 +156,6 @@ export class Doc extends React.Component<DocProps> {
         style: this.props.style,
       })
     ),
-
-    // Inject 
-    p: this.createBlockRenderer('p'),
-    ul: this.createBlockRenderer('ul'),
-    ol: this.createBlockRenderer('ol'),
-    img: this.createBlockRenderer('img'),
-    hr: this.createBlockRenderer('hr'),
-    blockquote: this.createBlockRenderer('blockquote'),
-
-    h1: this.createBlockRenderer('h1'),
-    h2: this.createBlockRenderer('h2'),
-    h3: this.createBlockRenderer('h3'),
-    h4: this.createBlockRenderer('h4'),
-    h5: this.createBlockRenderer('h5'),
-    h6: this.createBlockRenderer('h6'),
   }
 
   // Docs can be pretty heavy, and should be pure,

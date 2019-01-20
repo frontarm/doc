@@ -1,7 +1,7 @@
 import * as React from 'react'
 import styles from '../DocLayout.module.scss'
 
-export interface FloatProps {
+export interface EscapeProps {
   Component?: string | React.ComponentType<{
     children?: React.ReactNode,
     className: string,
@@ -11,32 +11,23 @@ export interface FloatProps {
 
   children: React.ReactNode
 
-  inset?: string
-  minWidth?: string
-  
   className?: string
   id?: string
   style?: React.CSSProperties
 }
 
-export function Float({
+export function Escape({
   Component='div',
   children,
   className='',
-  inset='0px',
   id,
-  minWidth=styles.minAsideWidth,
   style,
-}: FloatProps) {
+}: EscapeProps) {
   return (
     <Component
-      className={styles.Float+' '+className}
+      className={styles.Escape+' '+className}
       id={id}
-      style={{
-        minWidth: `calc(${minWidth} + ${styles.largeGutter}*2)`,
-        width: `calc(100% - ${styles.maxTwinBodyWidth} - ${styles.largeGutter} + ${inset})`,
-        ...style
-      }}
+      style={style}
     >
       {children}
     </Component>

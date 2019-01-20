@@ -1,7 +1,3 @@
-import styles from './DocLayout.module.scss'
-
-export { styles }
-
 export { Doc, DocProps } from './Doc'
 export { DocProvider, DocProviderProps, defaultDocComponents } from './DocContext'
 
@@ -16,5 +12,6 @@ export * from './content/YouTube'
 
 export * from './layout/Aside'
 export * from './layout/Block'
+export * from './layout/Escape'
 export * from './layout/Float'
 export * from './layout/Gutter'

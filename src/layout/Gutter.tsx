@@ -63,8 +63,6 @@ export function Gutter({
     horizontal = 'none'
   }
 
-  console.log()
-
   if (horizontal) {
     if (left === undefined) left = horizontal
     if (right === undefined) right = horizontal

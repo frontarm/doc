@@ -30,7 +30,9 @@ export default {
   },
   plugins: [
     postcss({
-      modules: true,
+      modules: {
+        generateScopedName: 'doc-[local]-[hash:base64:5]',
+      },
       extract: true
     }),
     url(),

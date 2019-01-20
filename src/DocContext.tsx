@@ -170,9 +170,9 @@ Object.assign(defaultDocComponents, {
       {children}
     </Block>
   ,
-  Image: ({ children, className='', title, ...props }) =>
+  Image: ({ children, className='', title, width, height, style, ...props }) =>
     <Block>
-      <img {...props} className={'Doc-Image' +className} />
+      <img {...props} style={{ width, height, ...style }} className={'Doc-Image' +className} />
     </Block>
   ,
   Spoiler: ({ children, className='', title, ...props }) =>
