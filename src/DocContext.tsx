@@ -190,7 +190,7 @@ Object.assign(defaultDocComponents, {
   ,
   Tweet: (props) => <div>Unimplemented.</div>,
   Video: (props) => <div>Unimplemented.</div>,
-  YouTube: ({ children, icon, title, videoId, className='', ...props }: YouTubeProps) => 
+  YouTube: ({ children, className='', height, icon, style, title, width, videoId, ...props }: YouTubeProps) => 
     <Block className={'doc-YouTube '+className}>
       <iframe
         src={`https://www.youtube.com/embed/${videoId}`}
@@ -198,6 +198,11 @@ Object.assign(defaultDocComponents, {
         allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
         {...props}
+        style={{
+          height,
+          width,
+          ...style
+        }}
       />
     </Block>
 })

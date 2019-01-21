@@ -8,8 +8,10 @@ export interface YouTubeProps {
   floatMinWidth?: string
 
   children?: React.ReactNode
+  height?: number
   icon?: any
   title?: any
+  width?: number
   videoId: string
 
   className?: string

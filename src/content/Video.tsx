@@ -8,10 +8,12 @@ export interface VideoProps {
   floatMinWidth?: string
 
   children?: React.ReactNode
+  height?: number
   icon?: any
   restricted?: boolean
   title?: any
   videoId: string
+  width?: number
 
   className?: string
   id?: string

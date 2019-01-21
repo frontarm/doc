@@ -26,20 +26,26 @@
   --max-single-width: maxSingleWidth;
 }
 
-.Doc .Aside,
-.Doc .Float {
-  box-sizing: border-box;
+.Doc {
+  .Aside, .Float {
+    box-sizing: border-box;
+
+    @include when-small-single-column {
+      max-width: calc(maxSingleBodyWidth + smallGutter*2);
+    }
+    @include when-large-single-column {
+      max-width: calc(maxSingleBodyWidth + largeGutter*2);
+    }
+  }
 
   @include when-single-column {
-    margin-left: auto;
-    margin-right: auto;
+    &.align-center-when-narrow {
+      .Aside, .Float {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
     width: 100%;
-  }
-  @include when-small-single-column {
-    max-width: calc(maxSingleBodyWidth + smallGutter*2);
-  }
-  @include when-large-single-column {
-    max-width: calc(maxSingleBodyWidth + largeGutter*2);
   }
 }
 
@@ -140,10 +146,41 @@
     }
   }
 
+  @include when-small-single-column {
+    &.align-left-when-narrow {
+      @include blocks {
+        margin-left: smallGutter;
+        margin-right: smallGutter;
+      }
+      .Block.Block-margin-half {
+        margin-left: calc(smallGutter/2);
+        margin-right: calc(smallGutter/2);
+      }
+    }
+  }
+  @include when-large-single-column {
+    &.align-left-when-narrow {
+      @include blocks {
+        margin-left: largeGutter;
+        margin-right: largeGutter;
+      }
+      .Block.Block-margin-half {
+        margin-left: calc(largeGutter/2);
+        margin-right: calc(largeGutter/2);
+      }
+    }
+  }
   @include when-single-column {
-    @include blocks {
-      margin-left: auto;
-      margin-right: auto;
+    &.align-center-when-narrow {
+      @include blocks {
+        margin-left: auto;
+        margin-right: auto;
+      }
+    }
+
+    .Block.Block-margin-none {
+      margin-left: 0;
+      margin-right: 0;
     }
 
     .Aside, .Float {

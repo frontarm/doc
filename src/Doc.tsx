@@ -44,6 +44,8 @@ export interface DocProps<MDXComponentProps = any> {
    */
   props?: MDXComponentProps
 
+  alignWhenNarrow?: 'center' | 'left'
+
   /**
    * Helper files that will be available to use within inline live editors
    */
@@ -99,6 +101,10 @@ export class Doc extends React.Component<DocProps> {
 
   static contextType = DocContext
 
+  static defaultProps = {
+    alignWhenNarrow: 'center',
+  }
+
   private getComponentType(type: string) {
     return (
       (this.props.components && this.props.components[type]) ||
@@ -127,7 +133,7 @@ export class Doc extends React.Component<DocProps> {
       return (
         demoboardProps
           ? <Demoboard {...demoboardProps} />
-          : React.createElement(this.context.components.code, {
+          : React.createElement(this.getComponentType('code'), {
             ...props,
             className: styles.Block+' '+(props.className || ''),
             highlightedSource,
@@ -151,7 +157,11 @@ export class Doc extends React.Component<DocProps> {
     wrapper: (props) => (
       React.createElement(this.getComponentType('wrapper'), {
         ...props,
-        className: styles.Doc+' '+(this.props.className || ''),
+        className: [
+          styles.Doc,
+          styles[`align-${this.props.alignWhenNarrow}-when-narrow`],
+          (this.props.className || '')
+        ].join(' '),
         id: this.props.id,
         style: this.props.style,
       })

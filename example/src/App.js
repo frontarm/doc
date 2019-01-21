@@ -11,6 +11,7 @@ export default class App extends React.Component {
       <NavProvider navigation={this.props.navigation}>
         <Doc
           MDXComponent={Component}
+          alignWhenNarrow='left'
           demoboardHelpers={demoboardHelpers}
         />
       </NavProvider>
