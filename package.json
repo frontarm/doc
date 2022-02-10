@@ -38,7 +38,7 @@
     "gh-pages": "^1.2.0",
     "mdx-loader": "^2.0.2",
     "navi": "^0.10.0",
-    "node-sass": "^4.11.0",
+    "node-sass": "^7.0.0",
     "react": "^16.6.1",
     "react-dom": "^16.6.1",
     "react-navi": "^0.10.0",
